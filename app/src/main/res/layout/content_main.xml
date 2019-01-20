@@ -4,16 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EEEEEE"
-    android:layout_marginTop="16dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Popular_Movies"
-    tools:showIn="@layout/activity_popular__movies">
+    tools:context=".MainActivity"
+    tools:showIn="@layout/app_bar_main">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycle_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

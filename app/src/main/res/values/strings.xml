@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BookMyTicket</string>
+    <string name="app_name">Book My Ticket</string>
     <string name="title_activity_popular__movies">Popular_Movies</string>
     <string name="action_setting">Settings</string>
     <string name="movie_name">Movie Title</string>
@@ -13,5 +13,30 @@
     <string name="pref_sort_top_rated">Top Rated</string>
     <string name="trailer">Trailer</string>
     <string name="favorite">Favorite Movies</string>
+    <string name="title_activity_main">Movies</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Book Ticket</string>
+    <string name="nav_header_subtitle">bookticket@book.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="about_us_title">About</string>
+    <string name="extra_sending_text">Download app using</string>
+    <string name="share_intent">share via</string>
+    <string name="fetching_movies">Fetching Movies</string>
+    <string name="loading_movies">Loading .....</string>
+    <string name="about_version">Version</string>
+    <string name="about_us">A book My simple app where  \n is users can book application.</string>
+    <string name="terms_and_conditions">Terms and Conditions</string>
+    <string name="_1_0_1">1.0.1</string>
+    <string name="last_update">Last Update</string>
+    <string name="january_2019">January 2019</string>
+    <string name="todo">Back Image</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="signup_now">Signup</string>
+    <string name="password">Password</string>
+    <string name="emailid">emailID</string>
+    <string name="login">Login</string>
+    <string name="submit">Submit</string>
 
 </resources>

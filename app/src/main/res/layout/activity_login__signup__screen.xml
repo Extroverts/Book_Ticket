@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-
     tools:context=".Login_Signup_Screen">
 
 
@@ -27,7 +26,7 @@
             android:layout_height="80dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_twitter" />
+            android:src="@drawable/logo" />
 
         <RelativeLayout
             android:id="@+id/rellay1"
@@ -42,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:fontFamily="sans-serif-medium"
-                android:text="Login"
+                android:text="@string/login"
                 android:textColor="@color/white"
                 android:textSize="30sp" />
 
@@ -64,7 +63,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
-                        android:text="Userid"
+                        android:text="@string/emailid"
                         android:textAllCaps="true"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
@@ -74,8 +73,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="5dp"
+                        android:autoText="true"
+
                         android:background="@drawable/et_bg"
                         android:fontFamily="sans-serif-light"
+                        android:imeOptions="actionNext"
+                        android:inputType="textEmailAddress"
+                        android:lines="1"
+                        android:maxLines="1"
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
                         android:textColor="@color/white"
@@ -93,7 +98,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
-                        android:text="Password"
+
+                        android:text="@string/password"
                         android:textAllCaps="true"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
@@ -103,8 +109,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="5dp"
+
                         android:background="@drawable/et_bg"
                         android:fontFamily="sans-serif-light"
+                        android:imeOptions="actionGo"
+                        android:inputType="textPassword"
+                        android:lines="1"
+                        android:maxLines="1"
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
                         android:textColor="@color/white"
@@ -141,6 +152,7 @@
 
     </RelativeLayout>
 
+
     <RelativeLayout
         android:id="@+id/rellay2"
         android:layout_width="match_parent"
@@ -151,13 +163,15 @@
         android:visibility="gone">
 
         <Button
+            android:id="@+id/signup"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/transparent"
+            android:layout_height="45dp"
+            android:background="@drawable/rounded_button"
             android:fontFamily="sans-serif"
-            android:text="Signup Now"
+            android:text="@string/signup_now"
             android:textAllCaps="true"
             android:textColor="@color/white" />
+
 
         <Button
             android:id="@+id/forgot"
@@ -166,7 +180,7 @@
             android:layout_alignParentRight="true"
             android:background="@color/transparent"
             android:fontFamily="sans-serif"
-            android:text="Forgot Password?"
+            android:text="@string/forgot_password"
             android:textAllCaps="true"
             android:textColor="@color/white" />
 
