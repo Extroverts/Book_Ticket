@@ -42,5 +42,6 @@
     <string name="custom_sign_in_button">custom Sign in</string>
     <string name="sign_in">sign_in</string>
     <string name="sign_out">sign Out</string>
+    <string name="sign_in_with_google_to_book_tickets_easily">Sign in with Google to Book Tickets Easily</string>
 
 </resources>
