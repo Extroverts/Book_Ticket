@@ -38,5 +38,9 @@
     <string name="emailid">emailID</string>
     <string name="login">Login</string>
     <string name="submit">Submit</string>
+    <string name="default_sign_in_button">signin Button</string>
+    <string name="custom_sign_in_button">custom Sign in</string>
+    <string name="sign_in">sign_in</string>
+    <string name="sign_out">sign Out</string>
 
 </resources>

@@ -20,9 +20,9 @@ public class About_us extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
-        back=(ImageView)findViewById(R.id.back);
-        term=(TextView)findViewById(R.id.terms);
-        webView=(WebView)findViewById( R.id.web );
+        back= findViewById(R.id.back);
+        term= findViewById(R.id.terms);
+        webView= findViewById( R.id.web);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -34,7 +34,7 @@ public class About_us extends AppCompatActivity {
             @Override
             public void onClick(View v) {
              webView.setVisibility( View.VISIBLE );
-             startWebView( "https://shoppingapp1.000webhostapp.com/" );
+             startWebView( "https://www.google.com" );
             }
         });
     }

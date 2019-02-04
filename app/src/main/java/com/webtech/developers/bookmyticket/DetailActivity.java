@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +39,7 @@ import retrofit2.Response;
 
 public class DetailActivity extends AppCompatActivity {
     TextView movieName,plotSynopsis,userRating,releaseDate;
-    ImageView poster;
+    ImageView poster,back_button;
     MaterialFavoriteButton favoriteButton;
     private RecyclerView recyclerView;
     private TrailerAdapter adapter;
@@ -46,22 +48,21 @@ public class DetailActivity extends AppCompatActivity {
     private Movies favoriteMovies;
     private  final AppCompatActivity activity=DetailActivity.this;
     private SQLiteDatabase mDb;
+
     int movie_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        android.support.v7.widget.Toolbar toolbar=findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         FavoriteDbHelper dbHelper = new FavoriteDbHelper(this);
         mDb = dbHelper.getWritableDatabase();
-
         poster=findViewById(R.id.thumbnail_header);
         movieName=findViewById(R.id.title);
         plotSynopsis=findViewById(R.id.plot_synopsis);
         releaseDate=findViewById(R.id.release_date);
         userRating=findViewById(R.id.user_rating);
+        back_button=findViewById( R.id.back_button );
         Intent previousActivity=getIntent();
         if(previousActivity.hasExtra("original_title")){
             String thumbnail=getIntent().getExtras().getString("poster_path");
@@ -77,10 +78,16 @@ public class DetailActivity extends AppCompatActivity {
             releaseDate.setText(release);
             ((CollapsingToolbarLayout)findViewById(R.id.collapsing_toolbar)).setTitle(movieTitle);
 
-        }else{
+        }else {
             Toast.makeText(this,"No api data..",Toast.LENGTH_SHORT).show();
-
         }
+
+        back_button.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick (View v) {
+                onBackPressed();
+            }
+        } );
         favoriteButton=findViewById(R.id.favorite);
         String movieTitle=getIntent().getExtras().getString("original_title");
         if (Exists(movieTitle )){
@@ -101,8 +108,6 @@ public class DetailActivity extends AppCompatActivity {
                             }
                         }
                     });
-
-
         }else {
             favoriteButton.setOnFavoriteChangeListener(
                     new MaterialFavoriteButton.OnFavoriteChangeListener() {
@@ -110,8 +115,7 @@ public class DetailActivity extends AppCompatActivity {
                         public void onFavoriteChanged(MaterialFavoriteButton buttonView, boolean favorite) {
                             if (favorite == true) {
                                 saveFavorite();
-                                Snackbar.make(buttonView, "Added to Favorite",
-                                        Snackbar.LENGTH_SHORT).show();
+                                Snackbar.make(buttonView, "Added to Favorite", Snackbar.LENGTH_SHORT).show();
                             } else {
                                 int movie_id = getIntent().getExtras().getInt("id");
                                 favoriteDbHelper = new FavoriteDbHelper(DetailActivity.this);
@@ -121,15 +125,17 @@ public class DetailActivity extends AppCompatActivity {
                             }
                         }
                     });
-
-
         }
         initView();
 
+
+
     }
+
     public boolean Exists(String searchItem) {
 
         String[] projection = {
+
                 FavoriteMovies.FavoriteEntry._ID,
                 FavoriteMovies.FavoriteEntry.COLUMN_MOVIEID,
                 FavoriteMovies.FavoriteEntry.COLUMN_TITLE,
@@ -178,13 +184,13 @@ public class DetailActivity extends AppCompatActivity {
 
 
     }
+
     private void loadTrailer(){
         int movieId=getIntent().getExtras().getInt("id");
         Log.d("TAG", "loadTrailer: "+movieId);
         try{
             if(BuildConfig.movie_db_api_key.isEmpty()){
                 Toast.makeText(this,"Please obtain api key",Toast.LENGTH_SHORT).show();
-
             }
             Client client=new Client();
             Service apiService=Client.getClient().create(Service.class);

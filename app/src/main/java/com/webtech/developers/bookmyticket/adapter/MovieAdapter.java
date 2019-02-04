@@ -39,8 +39,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
         String vote=Double.toString(moviesList.get(position).getVoteAverage());
         holder.userRating.setText(vote);
         Glide.with(mContext).load("http://image.tmdb.org/t/p/w185/"+moviesList.get(position).getPosterPath()).placeholder(R.drawable.load).into(holder.thumbnail);
-
-
     }
 
     @Override
@@ -51,13 +49,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title,userRating;
         public ImageView thumbnail;
-        public Button book;
         public  MyViewHolder(View view){
             super(view);
             title=view.findViewById(R.id.title);
             userRating=view.findViewById(R.id.user_rating);
             thumbnail=view.findViewById(R.id.thumbnail);
-            book=view.findViewById(R.id.book);
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
