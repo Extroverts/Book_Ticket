@@ -1,37 +1,29 @@
 package com.webtech.developers.bookmyticket;
 
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
+
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
+
 import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import com.google.zxing.WriterException;
-import java.io.File;
-
-import androidmads.library.qrgenearator.QRGContents;
-import androidmads.library.qrgenearator.QRGEncoder;
-import androidmads.library.qrgenearator.QRGSaver;
 
 public class About_us extends AppCompatActivity {
 
     ImageView back;
     TextView term;
-    Button btnCreate;
+
     WebView webView;
     Context mContext;
-    Bitmap bitmap ;
+
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
@@ -47,25 +39,9 @@ public class About_us extends AppCompatActivity {
             }
         } );
 
-        btnCreate = findViewById( R.id.create );
-
-        btnCreate.setOnClickListener( new View.OnClickListener() {
 
 
-            @Override
-            public void onClick (View v) {
-                Log.d( "Button CLick", "Button Clicked" );
-                QRCode();
-                try
-                    {
-                        QRGSaver.save(Environment.getExternalStorageDirectory().getPath()+"/Book/", "12", bitmap, QRGContents.ImageType.IMAGE_JPEG);
-                    } catch ( WriterException e )
-                    {
-                        e.printStackTrace();
-                    }
 
-            }
-        } );
         term.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick (View v) {
@@ -116,20 +92,5 @@ public class About_us extends AppCompatActivity {
     }
 
 
-    //QR Code Generation COde
-    public void QRCode(){
-        // Initializing the QR Encoder with your value to be encoded, type you required and Dimension
-        int smallerDimension=1000;
-        QRGEncoder qrgEncoder = new QRGEncoder("OJhjhkja", null, QRGContents.Type.TEXT, smallerDimension);
-        QRGEncoder qrgEncoders = new QRGEncoder("OJhjhkja", null, QRGContents.Type.TEXT, smallerDimension);
-        try {
-            // Getting QR-Code as Bitmap
-            bitmap = qrgEncoder.encodeAsBitmap();
-            bitmap = qrgEncoders.encodeAsBitmap();
-            //qrImage.setImageBitmap(bitmap);
-        } catch (WriterException e) {
-            Log.v("asd", e.toString());
-        }
-    }
 
 }

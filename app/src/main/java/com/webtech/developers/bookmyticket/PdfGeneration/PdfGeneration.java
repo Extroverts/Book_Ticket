@@ -18,7 +18,7 @@ public class PdfGeneration {
 
         try
             {
-                File file= new File( Environment.getExternalStorageDirectory().getPath() + "/01.pdf" );
+                File file= new File( Environment.getExternalStorageDirectory().getPath() + "Book My Ticket/01.pdf" );
                 PdfWriter.getInstance( document,new FileOutputStream( file ) );
                 document.open();
                 Paragraph p=new Paragraph( "Hello Wod" );
