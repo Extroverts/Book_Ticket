@@ -80,7 +80,7 @@ public class Booking_Details extends AppCompatActivity {
                 QRCode();
                 GeneratePdf();
                 try{
-                    QRGSaver.save( Environment.getExternalStorageDirectory().getPath() + "/Book My Ticket/", "12", bitmap, QRGContents.ImageType.IMAGE_JPEG);
+                    QRGSaver.save( Environment.getExternalStorageDirectory().getPath() + "/Book My Ticket/", movie_names, bitmap, QRGContents.ImageType.IMAGE_JPEG);
                     Toast.makeText( getApplication(),"Booking Successful. Check pdf file in your Storage",Toast.LENGTH_SHORT ).show();
                 } catch ( WriterException e )
                     {
@@ -116,7 +116,7 @@ public class Booking_Details extends AppCompatActivity {
 
         try
     {
-        File file= new File( Environment.getExternalStorageDirectory().getPath() + "Book My Ticket/01.pdf" );
+        File file= new File( Environment.getExternalStorageDirectory().getPath() + "/Book My Ticket/"+ movie_names+".pdf" );
         PdfWriter.getInstance( document,new FileOutputStream( file ) );
         document.open();
         Paragraph name=new Paragraph( user.getDisplayName() );

@@ -264,4 +264,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void signOut() {
         auth.signOut();
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        auth.addAuthStateListener(authListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (authListener != null) {
+            auth.removeAuthStateListener(authListener);
+        }
+    }
 }
