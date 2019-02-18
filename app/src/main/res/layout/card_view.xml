@@ -24,6 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/movie_cover_height"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/card"
                 android:scaleType="fitXY" />
 
             <TextView
@@ -35,7 +36,7 @@
                 android:paddingTop="@dimen/movie_title_padding"
                 android:paddingRight="@dimen/movie_title_padding"
                 android:textColor="@color/movie_title"
-                android:textSize="@dimen/movie_title" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/user_rating"
@@ -47,7 +48,7 @@
                 android:paddingRight="@dimen/movie_title_padding"
                 android:paddingBottom="@dimen/user_rating"
                 android:textColor="@color/colorAccent"
-                android:textSize="@dimen/movie_title" />
+                android:textSize="15sp" />
 
             <ImageView
                 android:layout_width="23dp"
@@ -57,6 +58,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginStart="34dp"
                 android:layout_marginLeft="34dp"
+                android:contentDescription="@string/app_name"
                 android:paddingTop="2dp"
                 android:src="@drawable/star" />
 

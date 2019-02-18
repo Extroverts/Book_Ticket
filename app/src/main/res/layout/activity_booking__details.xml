@@ -21,8 +21,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:text="Booking Details"
-            android:textSize="16dp" />
+            android:layout_marginStart="16dp"
+            android:text="@string/booking_details"
+            android:textSize="16sp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -44,9 +45,9 @@
                 android:layout_marginEnd="19dp"
                 android:layout_marginRight="19dp"
                 android:layout_marginBottom="16dp"
-                android:text="Movie Name"
+                android:text="@string/movie_names"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/dates_text"
@@ -54,7 +55,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/movie_name"
                 android:layout_marginLeft="16dp"
-                android:text="Date : " />
+                android:layout_marginStart="16dp"
+                android:text="@string/date" />
 
             <TextView
                 android:id="@+id/date_s"
@@ -69,7 +71,7 @@
                 android:layout_marginRight="207dp"
                 android:layout_toEndOf="@+id/dates_text"
                 android:layout_toRightOf="@+id/dates_text"
-                android:text="actual_date" />
+                android:text="@string/actual_date" />
 
             <TextView
                 android:id="@+id/textView7"
@@ -83,8 +85,10 @@
                 android:layout_marginTop="154dp"
                 android:layout_marginEnd="203dp"
                 android:layout_marginRight="203dp"
-                android:text="Ticket Details"
+                android:layout_alignLeft="@+id/movie_name"
                 android:textColor="@color/colorAccent"
+                android:layout_marginLeft="0dp"
+                android:text="@string/ticket_details"
                 android:textStyle="bold" />
 
             <TextView
@@ -101,7 +105,7 @@
                 android:layout_marginTop="183dp"
                 android:layout_marginEnd="254dp"
                 android:layout_marginRight="254dp"
-                android:text="Golden Seats" />
+                android:text="@string/golden_seats" />
 
             <TextView
                 android:id="@+id/seat_numbers"
@@ -117,7 +121,9 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="0dp"
                 android:layout_marginBottom="0dp"
-                android:text="SeatNumber" />
+                android:layout_alignRight="@+id/movie_name"
+                android:layout_marginRight="0dp"
+                android:text="@string/seatnumber" />
 
             <TextView
                 android:id="@+id/textView10"
@@ -129,7 +135,7 @@
                 android:layout_marginStart="17dp"
                 android:layout_marginLeft="17dp"
                 android:layout_marginTop="218dp"
-                android:text="Amount" />
+                android:text="@string/amount" />
 
             <TextView
                 android:id="@+id/amount"
@@ -145,7 +151,7 @@
                 android:layout_marginTop="220dp"
                 android:layout_marginEnd="19dp"
                 android:layout_marginRight="19dp"
-                android:text="text" />
+                android:text="@string/text" />
 
             <TextView
                 android:id="@+id/textView12"
@@ -155,7 +161,9 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="246dp"
-                android:text="Tax amount" />
+                android:layout_alignLeft="@+id/textView10"
+                android:layout_marginLeft="0dp"
+                android:text="@string/tax_amount" />
 
             <TextView
                 android:id="@+id/tax_amount"
@@ -169,7 +177,9 @@
                 android:layout_marginLeft="275dp"
                 android:layout_marginTop="0dp"
                 android:layout_marginEnd="0dp"
-                android:text="ytt" />
+                android:layout_alignRight="@+id/movie_name"
+                android:layout_marginRight="0dp"
+                android:text="@string/ytt" />
 
             <TextView
                 android:id="@+id/textView15"
@@ -181,7 +191,7 @@
                 android:layout_marginStart="17dp"
                 android:layout_marginLeft="17dp"
                 android:layout_marginTop="281dp"
-                android:text="Total Amount" />
+                android:text="@string/total_amount" />
 
             <TextView
                 android:id="@+id/th_name"
@@ -197,7 +207,7 @@
                 android:layout_marginTop="107dp"
                 android:layout_marginEnd="221dp"
                 android:layout_marginRight="221dp"
-                android:text="Theator_name"
+                android:text="@string/theator_name"
                 android:textColor="@color/design_default_color_primary_dark"
                 android:textSize="18sp" />
 
@@ -211,13 +221,13 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="269dp"
-                android:layout_marginLeft="269dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="25dp"
-                android:layout_marginRight="25dp"
-                android:layout_marginBottom="242dp"
-                android:text="TextView" />
+                android:layout_marginStart="274dp"
+                android:layout_marginLeft="274dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="247dp"
+                android:text="@string/textview" />
 
             <Button
                 android:id="@+id/book"
@@ -225,7 +235,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView15"
                 android:layout_marginTop="4dp"
-                android:text="Book" />
+                android:text="@string/book" />
 
 
         </RelativeLayout>

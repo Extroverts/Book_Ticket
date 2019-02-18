@@ -2,7 +2,7 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -36,10 +36,10 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/app_name"
                     android:fitsSystemWindows="true"
-                    android:scaleType="fitXY"
 
-                    android:contentDescription="TODO" />
+                    android:scaleType="fitXY" />
 
                 <com.github.ivbaranov.mfb.MaterialFavoriteButton
                     android:id="@+id/favorite"
@@ -64,6 +64,8 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/back_fav"
+                android:layout_marginStart="20dp"
+                android:contentDescription="@string/app_name"
                 android:src="@drawable/ic_arrow_back_black_24dp" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -131,12 +133,13 @@
                 <ImageView
                     android:layout_width="32dp"
                     android:layout_height="34dp"
-                    android:src="@drawable/star"
                     android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="60dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="60dp" />
+                    android:layout_marginLeft="60dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/star" />
 
             </RelativeLayout>
 
@@ -157,6 +160,7 @@
                 android:layout_marginLeft="@dimen/layout_margin_left"
                 android:layout_marginTop="@dimen/layout_margin_top"
                 android:padding="@dimen/padding_layout"
+                android:layout_marginStart="@dimen/layout_margin_left"
                 android:textSize="20sp" />
 
             <TextView
@@ -176,6 +180,7 @@
                 android:layout_marginLeft="@dimen/layout_margin_left"
                 android:layout_marginTop="@dimen/layout_margin_top"
                 android:padding="@dimen/padding_layout"
+                android:layout_marginStart="@dimen/layout_margin_left"
                 android:textSize="20sp" />
 
             <TextView
@@ -215,9 +220,9 @@
         android:id="@+id/book"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:text="book" />
+        android:text="@string/book" />
 
 
 

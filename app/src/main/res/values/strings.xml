@@ -30,7 +30,7 @@
     <string name="terms_and_conditions">Terms and Conditions</string>
     <string name="_1_0_1">1.0.1</string>
     <string name="last_update">Last Update</string>
-    <string name="january_2019">January 2019</string>
+    <string name="january_2019">February 2019</string>
     <string name="todo">Back Image</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="signup_now">Signup</string>
@@ -44,5 +44,33 @@
     <string name="sign_out">sign Out</string>
     <string name="sign_in_with_google_to_book_tickets_easily">Sign in with Google to Book Tickets Easily</string>
     <string name="select_seat">Select Seat</string>
+    <string name="movie_names">Movie Name</string>
+    <string name="booking_details">Booking Details</string>
+    <string name="actual_date">actual_date</string>
+    <string name="golden_seats">Golden Seats</string>
+    <string name="ticket_details">Ticket Details</string>
+    <string name="seatnumber">SeatNumber</string>
+    <string name="amount">Amount</string>
+    <string name="text">text</string>
+    <string name="tax_amount">Tax amount</string>
+    <string name="ytt">ytt</string>
+    <string name="total_amount">Total Amount</string>
+    <string name="theator_name">Theator_name</string>
+    <string name="textview">TextView</string>
+    <string name="book">Book</string>
+    <string name="date">Date :</string>
+    <string name="card">card View</string>
+    <string name="select_date">Select Date</string>
+    <string name="_1">1</string>
+    <string name="_2">2</string>
+    <string name="_3">3</string>
+    <string name="_4">4</string>
+    <string name="_5">5</string>
+    <string name="inox_movies">INOX Movies</string>
+    <string name="pvr">PVR</string>
+    <string name="city_pride">City Pride</string>
+    <string name="abc_movies">ABC movies</string>
+    <string name="jai_ganesh_inox">Jai Ganesh INOX</string>
+    <string name="select_movie_theator">Select Movie Theator</string>
 
 </resources>
