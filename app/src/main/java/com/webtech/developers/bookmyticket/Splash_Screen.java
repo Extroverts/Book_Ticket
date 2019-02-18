@@ -13,14 +13,12 @@ import com.google.firebase.auth.FirebaseUser;
 public class Splash_Screen extends AppCompatActivity {
 
 
-    FirebaseAuth.AuthStateListener auth;
-    private FirebaseAuth Auth;
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_splash__screen );
-        Auth=FirebaseAuth.getInstance();
-final FirebaseUser user=FirebaseAuth.getInstance().getCurrentUser();
+       FirebaseAuth Auth=FirebaseAuth.getInstance();
+       final FirebaseUser user=FirebaseAuth.getInstance().getCurrentUser();
         new Handler().postDelayed( new Runnable() {
             @Override
             public void run ( ) {

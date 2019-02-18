@@ -46,5 +46,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:15.0.1'
     implementation 'com.google.android.gms:play-services-identity:15.0.1'
     implementation 'com.google.android.gms:play-services-plus:15.0.1'
+    implementation 'com.itextpdf:itextg:5.5.10'
+    implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.3'
 }
 apply plugin: 'com.google.gms.google-services'
