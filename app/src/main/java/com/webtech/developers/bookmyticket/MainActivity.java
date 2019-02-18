@@ -71,9 +71,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        auth=FirebaseAuth.getInstance();
+
+        auth = FirebaseAuth.getInstance();
+
+        //get current user
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+        authListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user == null) {
+                    // user auth state is changed - user is null
+                    // launch login activity
+                    startActivity(new Intent(MainActivity.this, Login_Signup_Screen.class));
+                    finish();
+                }
+            }
+        };
         progressDialog = new ProgressDialog(MainActivity.this);
         progressDialog.setTitle(getString(R.string.fetching_movies));
         progressDialog.setMessage(getString(R.string.loading_movies));
@@ -168,7 +183,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
          if(id==R.id.logout)
          {
-             auth.signOut();
+           signOut();
+
          }else if ( id==R.id.nav_share){
             Intent share=new Intent(Intent.ACTION_SEND);
             share.setType("text/plain");
@@ -245,6 +261,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-
-
+    public void signOut() {
+        auth.signOut();
+    }
 }

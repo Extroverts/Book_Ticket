@@ -15,6 +15,14 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.zxing.WriterException;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
@@ -70,9 +78,10 @@ public class Booking_Details extends AppCompatActivity {
             public void onClick (View v) {
                 //Pdf Generration and QR Code Generation
                 QRCode();
+                GeneratePdf();
                 try{
                     QRGSaver.save( Environment.getExternalStorageDirectory().getPath() + "/Book My Ticket/", "12", bitmap, QRGContents.ImageType.IMAGE_JPEG);
-                    Toast.makeText( getApplication(),"QR Code Successfully Generated",Toast.LENGTH_SHORT ).show();
+                    Toast.makeText( getApplication(),"Booking Successful. Check pdf file in your Storage",Toast.LENGTH_SHORT ).show();
                 } catch ( WriterException e )
                     {
                         e.printStackTrace();
@@ -86,19 +95,52 @@ public class Booking_Details extends AppCompatActivity {
     public void QRCode(){
         // Initializing the QR Encoder with your value to be encoded, type you required and Dimension
         int Dimension=1000;
+        QRGEncoder u_name =new QRGEncoder(user.getDisplayName(), null, QRGContents.Type.TEXT, Dimension);
         QRGEncoder seat =new QRGEncoder(movie_names, null, QRGContents.Type.TEXT, Dimension);
-        //QRGEncoder seat =new QRGEncoder(user.getDisplayName()+"\n"+seats+"\n"+movie_names, null, QRGContents.Type.TEXT, Dimension);
-        Log.d("Movie_name",movie_names);
+        QRGEncoder total_am =new QRGEncoder(String.valueOf( Integer.parseInt( calculate ) + Integer.parseInt( tax ) ), null, QRGContents.Type.TEXT, Dimension);
+
         try {
 
             // Getting QR-Code as Bitmap
             bitmap = seat.encodeAsBitmap();
+            bitmap=u_name.encodeAsBitmap();
+            bitmap=total_am.encodeAsBitmap();
             //qrImage.setImageBitmap(bitmap);
         } catch (WriterException e) {
             Log.v("asd", e.toString());
         }
     }
 
+    public void GeneratePdf(){
+    Document document=new Document(  );
+
+        try
+    {
+        File file= new File( Environment.getExternalStorageDirectory().getPath() + "Book My Ticket/01.pdf" );
+        PdfWriter.getInstance( document,new FileOutputStream( file ) );
+        document.open();
+        Paragraph name=new Paragraph( user.getDisplayName() );
+        Paragraph email=new Paragraph( user.getEmail() );
+        Paragraph movie_name=new Paragraph( movie_names );
+        Paragraph date=new Paragraph( dates );
+        Paragraph cost=new Paragraph( String.valueOf( Integer.parseInt( calculate ) + Integer.parseInt( tax ) ) );
+        document.add( name );
+        document.add( email );
+        document.add( movie_name);
+        document.add( date);
+        document.add( cost );
 
 
+    } catch ( DocumentException e )
+    {
+        e.printStackTrace();
+    } catch ( FileNotFoundException e )
+    {
+        e.printStackTrace();
+    }
+
+        document.close();
+
+    }
 }
+
