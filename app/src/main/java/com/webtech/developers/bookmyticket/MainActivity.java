@@ -1,5 +1,6 @@
 package com.webtech.developers.bookmyticket;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Application;
@@ -7,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -49,7 +52,7 @@ import java.util.List;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,ActivityCompat.OnRequestPermissionsResultCallback {
 
     private RecyclerView recyclerView;
     private MovieAdapter adapter;
@@ -64,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ImageView imgView;
 
     private FavoriteDbHelper favoriteDbHelper;
+    private static final int PERMISSION_REQUEST_CAMERA = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        requestCameraPermission();
         auth = FirebaseAuth.getInstance();
 
         //get current user
@@ -160,7 +164,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        // BEGIN_INCLUDE(onRequestPermissionsResult)
+        if (requestCode == PERMISSION_REQUEST_CAMERA) {
+            // Request for camera permission.
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission has been granted. Start camera preview Activity.
 
+
+            } else {
+                // Permission request was denied.
+               Toast.makeText( getApplicationContext(),"Permission not granted",Toast.LENGTH_SHORT ).show();
+            }
+        }
+        // END_INCLUDE(onRequestPermissionsResult)
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -266,6 +286,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onStop();
         if (authListener != null) {
             auth.removeAuthStateListener(authListener);
+        }
+    }
+
+    private void requestCameraPermission() {
+        // Permission has not been granted and must be requested.
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            // Provide an additional rationale to the user if the permission was not granted
+            // and the user would benefit from additional context for the use of the permission.
+            // Display a SnackBar with cda button to request the missing permission.
+
+                    ActivityCompat.requestPermissions(MainActivity.this,
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            PERMISSION_REQUEST_CAMERA);
+
+
+        } else {
+
+            // Request the permission. The result will be received in onRequestPermissionResult().
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CAMERA);
         }
     }
 }
