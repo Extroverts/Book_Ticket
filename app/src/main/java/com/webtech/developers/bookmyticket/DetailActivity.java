@@ -182,7 +182,7 @@ public class DetailActivity extends AppCompatActivity {
                     @Override
                     public void onCheckedChanged (RadioGroup group, int checkedId) {
                         radioButton = dialogView.findViewById( checkedId );
-                        Toast.makeText( getApplicationContext(), "" + radioButton.getText(), Toast.LENGTH_SHORT ).show();
+                      //  Toast.makeText( getApplicationContext(), "" + radioButton.getText(), Toast.LENGTH_SHORT ).show();
                     }
                 } );
 

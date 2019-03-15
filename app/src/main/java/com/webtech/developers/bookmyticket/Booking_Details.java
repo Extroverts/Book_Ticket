@@ -42,7 +42,7 @@ import androidmads.library.qrgenearator.QRGSaver;
 
 public class Booking_Details extends AppCompatActivity  {
 
-    
+
     TextView movie_name,date_set,seat_number,total_amount,tax_amount,total,th_name;
     final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     Button book;
@@ -120,7 +120,7 @@ public class Booking_Details extends AppCompatActivity  {
             bitmap = seat.encodeAsBitmap();
             bitmap=u_name.encodeAsBitmap();
             bitmap=total_am.encodeAsBitmap();
-            //qrImage.setImageBitmap(bitmap);
+
         } catch (WriterException e) {
             Log.v("asd", e.toString());
         }
