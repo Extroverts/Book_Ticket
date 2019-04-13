@@ -174,9 +174,7 @@ public class Booking_Details extends AppCompatActivity  {
     {
         e.printStackTrace();
     }
-
         document.close();
-
     }
 
 }

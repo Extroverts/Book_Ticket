@@ -1,6 +1,8 @@
 package com.webtech.developers.bookmyticket;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -14,22 +16,27 @@ public class Splash_Screen extends AppCompatActivity {
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
-        super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_splash__screen );
-       FirebaseAuth Auth=FirebaseAuth.getInstance();
-       final FirebaseUser user=FirebaseAuth.getInstance().getCurrentUser();
-        new Handler().postDelayed( new Runnable() {
-            @Override
-            public void run ( ) {
-                if(user==null){
-                    startActivity( new Intent( Splash_Screen.this,Login_Signup_Screen.class ) );
-                    finish();
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash__screen);
+        FirebaseAuth Auth = FirebaseAuth.getInstance();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm.getActiveNetworkInfo() != null) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (user == null) {
+                        startActivity(new Intent(Splash_Screen.this, Login_Signup_Screen.class));
+                        finish();
+                    } else {
+                        startActivity(new Intent(Splash_Screen.this, MainActivity.class));
+                        finish();
+                    }
                 }
-                else{
-                    startActivity( new Intent( Splash_Screen.this,MainActivity.class));
-                    finish();
-                }
-            }
-        }, 2000);
+            }, 2000);
+        }
+        else{
+            Toast.makeText(getApplicationContext(),"Check Internet Connection",Toast.LENGTH_SHORT).show();
+        }
     }
 }
