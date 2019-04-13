@@ -9,8 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_gravity="center"
-        android:layout_margin="@dimen/card_margin"
-        android:id="@+id/card_view_trailer">
+        android:layout_margin="@dimen/card_margin">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

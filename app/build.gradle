@@ -14,12 +14,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            resValue "string", "movie_db_api_key", "c3c0c6c73f00f4ad36dcb2b1aba360c1"
             buildConfigField 'String', "movie_db_api_key", "c3c0c6c73f00f4ad36dcb2b1aba360c1"
         }
         debug {
             buildConfigField 'String', "movie_db_api_key", '"c3c0c6c73f00f4ad36dcb2b1aba360c1"'
-            resValue "string", "movie_db_api_key", "c3c0c6c73f00f4ad36dcb2b1aba360c1"
         }
     }
 }

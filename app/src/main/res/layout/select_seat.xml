@@ -29,31 +29,26 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <RadioButton
-            android:id="@+id/one"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/_1" />
 
         <RadioButton
-            android:id="@+id/two"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/_2" />
 
         <RadioButton
-            android:id="@+id/three"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/_3" />
 
         <RadioButton
-            android:id="@+id/four"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/_4" />
 
         <RadioButton
-            android:id="@+id/five"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/_5" />

@@ -1,5 +1,6 @@
 package com.webtech.developers.bookmyticket;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -62,14 +63,16 @@ public class DetailActivity extends AppCompatActivity {
     private  final AppCompatActivity activity=DetailActivity.this;
     private SQLiteDatabase mDb;
     int movie_id;
-
-
+    String Dates;
+    private DatePicker datePicker;
+    private Calendar calendar;
+    private TextView dateView;
+    private int year, month, day;
     //radio
     RadioGroup radioGroup,radioGroup2;
     RadioButton radioButton,radioButton2;
     Button btn;
-    DatePicker datePicker;
-    int y,m,d;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +88,12 @@ public class DetailActivity extends AppCompatActivity {
         userRating = findViewById( R.id.user_rating );
         back_button = findViewById( R.id.back_button );
         book = findViewById( R.id.book );
+
+        calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+        showDate(year, month+1, day);
 
         Intent previousActivity = getIntent();
         if ( previousActivity.hasExtra( "original_title" ) )
@@ -189,10 +198,9 @@ public class DetailActivity extends AppCompatActivity {
                 btn.setOnClickListener( new View.OnClickListener() {
                     @Override
                     public void onClick (View v) {
-                        DatePicker datePicker=new DatePicker( getApplicationContext() );
-                         y=datePicker.getYear();
-                        m=datePicker.getMonth();
-                        d=datePicker.getDayOfMonth();
+
+                        showDialog(999);
+
                     }
                 } );
 
@@ -202,17 +210,11 @@ public class DetailActivity extends AppCompatActivity {
                     public void onClick (DialogInterface dialog, int which) {
                         String seats=radioButton.getText().toString();
                         String movie_theator=radioButton2.getText().toString();
-                        DatePicker datePicker=new DatePicker( getApplicationContext() );
-                        y=datePicker.getYear();
-                        m=datePicker.getMonth();
-                        d=datePicker.getDayOfMonth();
-                        String movie_date= String.valueOf( d + m + y );
-
                         Intent i=new Intent( DetailActivity.this,Booking_Details.class );
                         i.putExtra( "movie_name",movieName.getText().toString());
                         i.putExtra( "seat_number",seats );
-                        i.putExtra( "movie_date",movie_date );
                         i.putExtra( "movie_th_name",movie_theator );
+                        i.putExtra("dates",Dates);
                         startActivity( i );
                     }
                 } );
@@ -268,6 +270,7 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
+    //get data from initviews
     private void initView(){
         trailerList=new ArrayList<>();
         adapter=new TrailerAdapter(this,trailerList);
@@ -277,10 +280,9 @@ public class DetailActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         loadTrailer();
-
-
     }
 
+    //load Trailers
     private void loadTrailer(){
         int movieId=getIntent().getExtras().getInt("id");
         Log.d("TAG", "loadTrailer: "+movieId);
@@ -311,6 +313,33 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        // TODO Auto-generated method stub
+        if (id == 999) {
+            return new DatePickerDialog(this,
+                    myDateListener, year, month, day);
+        }
+        return null;
+    }
 
+    private DatePickerDialog.OnDateSetListener myDateListener = new
+            DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker arg0,
+                                      int arg1, int arg2, int arg3) {
+                    // TODO Auto-generated method stub
+                    // arg1 = year
+                    // arg2 = month
+                    // arg3 = day
+                    showDate(arg1, arg2+1, arg3);
+                }
+            };
+
+    private void showDate(int year, int month, int day) {
+        Dates=new StringBuilder().append(day).append("/").append(month).append("/").append(year).toString();
+       Toast.makeText(getApplicationContext(),new StringBuilder().append(day).append("/").append(month).append("/").append(year),Toast.LENGTH_LONG).show();
+
+    }
 }
 

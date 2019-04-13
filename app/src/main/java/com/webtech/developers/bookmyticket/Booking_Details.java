@@ -1,40 +1,28 @@
 package com.webtech.developers.bookmyticket;
 
-import android.Manifest;
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
+
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
-import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.zxing.WriterException;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.HashMap;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
@@ -96,7 +84,7 @@ public class Booking_Details extends AppCompatActivity  {
                         try
                             {
                                 QRGSaver.save( Environment.getExternalStorageDirectory().getPath() + "/Book My Ticket/", movie_names, bitmap, QRGContents.ImageType.IMAGE_JPEG );
-                                Toast.makeText( getApplication(), "Booking Successful. Check pdf file in your Storage", Toast.LENGTH_SHORT ).show();
+                                Toast.makeText( getApplication(), "Booking Successful.", Toast.LENGTH_SHORT ).show();
                             } catch ( WriterException e )
                             {
                                 e.printStackTrace();
@@ -109,20 +97,23 @@ public class Booking_Details extends AppCompatActivity  {
     //QR Code Generation COde
     public void QRCode(){
         // Initializing the QR Encoder with your value to be encoded, type you required and Dimension
-        int Dimension=1000;
-        QRGEncoder u_name =new QRGEncoder(user.getDisplayName(), null, QRGContents.Type.TEXT, Dimension);
-        QRGEncoder seat =new QRGEncoder(movie_names, null, QRGContents.Type.TEXT, Dimension);
-        QRGEncoder total_am =new QRGEncoder(String.valueOf( Integer.parseInt( calculate ) + Integer.parseInt( tax ) ), null, QRGContents.Type.TEXT, Dimension);
+        HashMap<String,String> qr=new HashMap<String, String>();
+        qr.put("User Details",user.getDisplayName());
+        qr.put("User Email",user.getEmail());
+        qr.put("Movie Name :",movie_names);
+        qr.put("Seats :",seats);
+        qr.put("Movie Date :",dates);
+        qr.put("Movie Theator Namr",theator_name);
 
+
+        int Dimension=1000;
+        QRGEncoder movie_details =new QRGEncoder(qr.toString(), null, QRGContents.Type.TEXT, Dimension);
         try {
 
             // Getting QR-Code as Bitmap
-            bitmap = seat.encodeAsBitmap();
-            bitmap=u_name.encodeAsBitmap();
-            bitmap=total_am.encodeAsBitmap();
-
+           bitmap=movie_details.encodeAsBitmap();
         } catch (WriterException e) {
-            Log.v("asd", e.toString());
+            Log.v("QR Code Error ", e.toString());
         }
     }
 
@@ -134,17 +125,47 @@ public class Booking_Details extends AppCompatActivity  {
         File file= new File( Environment.getExternalStorageDirectory().getPath() + "/Book My Ticket/"+ movie_names+".pdf" );
         PdfWriter.getInstance( document,new FileOutputStream( file ) );
         document.open();
-        Paragraph name=new Paragraph( user.getDisplayName() );
-        Paragraph email=new Paragraph( user.getEmail() );
-        Paragraph movie_name=new Paragraph( movie_names );
-        Paragraph date=new Paragraph( dates );
-        Paragraph cost=new Paragraph( String.valueOf( Integer.parseInt( calculate ) + Integer.parseInt( tax ) ) );
-        document.add( name );
-        document.add( email );
-        document.add( movie_name);
-        document.add( date);
-        document.add( cost );
 
+        PdfPTable table = new PdfPTable(2);
+
+        // Header
+        PdfPCell cell1 = new PdfPCell(new Phrase("User Details"));
+        PdfPCell cell2 = new PdfPCell(new Phrase(user.getDisplayName()));
+        table.addCell(cell1);
+        table.addCell(cell2);
+
+        PdfPCell cell3 = new PdfPCell(new Phrase("User Email"));
+        PdfPCell cell4 = new PdfPCell(new Phrase(user.getEmail()));
+        table.addCell(cell3);
+        table.addCell(cell4);
+
+        PdfPCell cell5 = new PdfPCell(new Phrase("Movie Name"));
+        PdfPCell cell6 = new PdfPCell(new Phrase(movie_names));
+        table.addCell(cell5);
+        table.addCell(cell6);
+
+        PdfPCell cell7 = new PdfPCell(new Phrase("Ticket Cost"));
+        PdfPCell cell8 = new PdfPCell(new Phrase(calculate));
+        table.addCell(cell7);
+        table.addCell(cell8);
+
+        PdfPCell cell9 = new PdfPCell(new Phrase("Tax Amount"));
+        PdfPCell cell10 =  new PdfPCell(new Phrase(tax));
+        table.addCell(cell9);
+        table.addCell(cell10);
+
+        PdfPCell cell11 = new PdfPCell(new Phrase("Total Ticket Amount"));
+        PdfPCell cell12 = new PdfPCell(new Phrase(total_am));
+        table.addCell(cell11);
+        table.addCell(cell12);
+
+        PdfPCell cell13 = new PdfPCell(new Phrase("Movie Date"));
+        PdfPCell cell14 = new PdfPCell(new Phrase(dates));
+        table.addCell(cell13);
+        table.addCell(cell14);
+
+
+        document.add(table);
 
     } catch ( DocumentException e )
     {

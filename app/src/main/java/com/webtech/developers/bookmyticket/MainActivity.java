@@ -152,13 +152,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if ( drawer.isDrawerOpen(GravityCompat.START) )
             {
                 drawer.closeDrawer(GravityCompat.START);
-            } else if(back_pressed+2000>System.currentTimeMillis())
+            } else
             {
                 super.onBackPressed();
-            } else {
-            Toast.makeText( getApplicationContext(),"Press Once Again to Exit !",Toast.LENGTH_SHORT ).show();
             }
-        back_pressed=System.currentTimeMillis();
         finish();
 
     }
@@ -167,19 +164,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        // BEGIN_INCLUDE(onRequestPermissionsResult)
         if (requestCode == PERMISSION_REQUEST_CAMERA) {
-            // Request for camera permission.
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission has been granted. Start camera preview Activity.
-
-
             } else {
-                // Permission request was denied.
                Toast.makeText( getApplicationContext(),"Permission not granted",Toast.LENGTH_SHORT ).show();
             }
         }
-        // END_INCLUDE(onRequestPermissionsResult)
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

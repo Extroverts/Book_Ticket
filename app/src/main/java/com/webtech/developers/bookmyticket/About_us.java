@@ -40,8 +40,6 @@ public class About_us extends AppCompatActivity {
         } );
 
 
-
-
         term.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick (View v) {

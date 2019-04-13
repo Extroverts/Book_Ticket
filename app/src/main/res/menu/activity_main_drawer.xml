@@ -9,7 +9,6 @@
             android:icon="@drawable/ic_local_play_black_24dp"
             android:title="Now Playing" />
         <item
-            android:id="@+id/popular_movies"
             android:icon="@drawable/ic_movie_black_24dp"
             android:title="Popular Movies" />
         <item
@@ -21,11 +20,9 @@
             android:icon="@drawable/ic_favorite_black_24dp"
             android:title="Favorite Movies" />
         <item
-            android:id="@+id/events"
             android:icon="@drawable/ic_event_black_24dp"
             android:title="Events" />
         <item
-            android:id="@+id/history"
             android:icon="@drawable/ic_history_black_24dp"
             android:title="History" />
     </group>
@@ -41,7 +38,6 @@
                 android:icon="@drawable/ic_info_black_24dp"
                 android:title="About us" />
             <item
-                android:id="@+id/action_settings"
                 android:icon="@drawable/ic_settings_black_24dp"
                 android:title="Settings" />
             <item
