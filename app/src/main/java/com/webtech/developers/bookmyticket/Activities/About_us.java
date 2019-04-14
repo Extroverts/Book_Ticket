@@ -1,4 +1,4 @@
-package com.webtech.developers.bookmyticket;
+package com.webtech.developers.bookmyticket.Activities;
 
 import android.app.ProgressDialog;
 
@@ -14,13 +14,13 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.webtech.developers.bookmyticket.R;
 
 
 public class About_us extends AppCompatActivity {
 
     ImageView back;
     TextView term;
-
     WebView webView;
     Context mContext;
 

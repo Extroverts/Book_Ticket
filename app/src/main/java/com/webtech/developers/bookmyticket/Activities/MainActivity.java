@@ -1,28 +1,24 @@
-package com.webtech.developers.bookmyticket;
+package com.webtech.developers.bookmyticket.Activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Application;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -30,18 +26,23 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
+import com.webtech.developers.bookmyticket.BuildConfig;
 import com.webtech.developers.bookmyticket.Models.MovieResponse;
 import com.webtech.developers.bookmyticket.Models.Movies;
+import com.webtech.developers.bookmyticket.R;
 import com.webtech.developers.bookmyticket.adapter.MovieAdapter;
 import com.webtech.developers.bookmyticket.api.Client;
 import com.webtech.developers.bookmyticket.data.FavoriteDbHelper;
@@ -62,9 +63,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static long back_pressed;
     private TextView username,email;
     private FirebaseAuth auth;
-
+    Context context;
     private FirebaseAuth.AuthStateListener authListener;
+    DatabaseReference databaseReference;
+    FirebaseUser user;
     ImageView imgView;
+
+    //feedback from
+    RatingBar ratingBar;
+    TextInputEditText feedback;
+    Button feedback_button;
 
     private FavoriteDbHelper favoriteDbHelper;
     private static final int PERMISSION_REQUEST_CAMERA = 0;
@@ -79,7 +87,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         auth = FirebaseAuth.getInstance();
 
         //get current user
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+       user= FirebaseAuth.getInstance().getCurrentUser();
+        databaseReference=FirebaseDatabase.getInstance().getReference();
 
         authListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -193,11 +202,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
          } else if(id==R.id.upcoming_movies){
 
          } else if(id==R.id.about_us){
-             startActivity(new Intent(MainActivity.this,About_us.class));
+             startActivity(new Intent(MainActivity.this,Date_and_Theator_Selection.class));
          } else if(id==R.id.privacy){
              Toast.makeText( getApplicationContext(),"Updated Soon" ,Toast.LENGTH_SHORT).show();
          }else if(id==R.id.feedback){
+             AlertDialog.Builder builder=new AlertDialog.Builder( MainActivity.this );
+             if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP )
+                 {
 
+                     LayoutInflater layoutInflater=LayoutInflater.from( MainActivity.this );
+                     View DialogView=layoutInflater.inflate( R.layout.feedback_form,null );
+                     ratingBar=DialogView.findViewById( R.id.ratingBar );
+                     feedback=DialogView.findViewById( R.id.feedback_text );
+
+                     builder.setView( DialogView );
+                     builder.setPositiveButton( "Submit", new DialogInterface.OnClickListener() {
+                         @Override
+                         public void onClick (DialogInterface dialog, int which) {
+                             final float ratingValue=ratingBar.getRating();
+                             final String getfeedback=feedback.getText().toString();
+                             databaseReference.child( "feedback" ).child( user.getDisplayName() ).child("rating").setValue( ratingValue );
+                             databaseReference.child( "feedback" ).child( user.getDisplayName() ).child("feedback").setValue( getfeedback );
+                             Toast.makeText( getApplication(),"Thank you for your feedback.",Toast.LENGTH_SHORT ).show();
+
+                             dialog.cancel();
+
+                         }
+                     } );
+                 }
+             else{
+                 Toast.makeText( getApplicationContext(),"Your android does not meet minimum reqyurement to comment.",Toast.LENGTH_SHORT ).show();
+             }
+
+             builder.create().show();
          }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

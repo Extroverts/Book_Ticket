@@ -14,21 +14,22 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Splash_Screen">
+        <activity android:name=".Activities.Splash_Screen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Login_Signup_Screen" />
-        <activity android:name=".DetailActivity" />
+        <activity android:name=".Activities.Login_Signup_Screen" />
+        <activity android:name=".Activities.DetailActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme" />
-        <activity android:name=".About_us" />
-        <activity android:name=".Booking_Details"></activity>
+        <activity android:name=".Activities.About_us" />
+        <activity android:name=".Activities.Booking_Details" />
+        <activity android:name=".Activities.Date_and_Theator_Selection"></activity>
     </application>
 
 </manifest>

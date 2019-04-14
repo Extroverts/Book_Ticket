@@ -7,7 +7,7 @@
         android:orientation="vertical"
         android:padding="16dp"
     android:background="@drawable/back"
-        tools:context=".Login_Signup_Screen">
+        tools:context=".Activities.Login_Signup_Screen">
 
     <ImageView
         android:id="@+id/imageView3"

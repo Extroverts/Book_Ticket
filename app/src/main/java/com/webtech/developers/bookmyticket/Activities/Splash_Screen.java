@@ -1,16 +1,16 @@
-package com.webtech.developers.bookmyticket;
+package com.webtech.developers.bookmyticket.Activities;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.webtech.developers.bookmyticket.R;
 
 public class Splash_Screen extends AppCompatActivity {
 
