@@ -7,7 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,6 +18,7 @@ import com.google.zxing.WriterException;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -26,6 +29,7 @@ import com.webtech.developers.bookmyticket.R;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.net.URL;
 import java.util.HashMap;
 
 import androidmads.library.qrgenearator.QRGContents;
@@ -35,67 +39,86 @@ import androidmads.library.qrgenearator.QRGSaver;
 public class Booking_Details extends AppCompatActivity  {
 
 
-    TextView movie_name,date_set,seat_number,total_amount,tax_amount,total,th_name;
+    TextView movie_name,date_set,seat_number,total_amt,tax_amount,total,th_name;
     String movie_names,seats,dates,theator_name,calculate,tax,total_am;
     int Dimension=1000;
     final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     Button book;
     Bitmap bitmap ;
+    Spinner spinner;
+    Double amount;
+    QRGEncoder movie_details;
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_booking__details );
 
+        spinner=findViewById( R.id.spinner );
+
+        total=findViewById( R.id.total );
+        total_amt=findViewById( R.id.total_amt );
+        book=findViewById( R.id.book );
+
                 movie_names = getIntent().getStringExtra( "Movie_name" );
-//                seats = getIntent().getStringExtra( "seat_number" );
                 dates = getIntent().getStringExtra( "Movie_date" );
-//                theator_name = getIntent().getStringExtra( "movie_th_name" );
-//
-        movie_name = findViewById( R.id.movie_name );
+               theator_name = getIntent().getStringExtra( "Movie_theaator_name" );
+                movie_name = findViewById( R.id.movie_name );
                     date_set = findViewById( R.id.date_s );
-//                seat_number = findViewById( R.id.seat_numbers );
-//                total_amount = findViewById( R.id.amount );
-//                tax_amount = findViewById( R.id.tax_amount );
-//                total = findViewById( R.id.total );
-//                th_name = findViewById( R.id.th_name );
-//                book = findViewById( R.id.book );
-//
-//                //calculate the amount into 100
-//                calculate = String.valueOf( (100 * Integer.parseInt( seats )) );
-//
-//                //calculate the tax
-//                tax = String.valueOf( (((Integer.parseInt( calculate ) * 2) / 100) * 4) );
-//
-//                //calculate the total amount
-//                total_am = String.valueOf( Integer.parseInt( calculate ) + Integer.parseInt( tax ) );
-//
-//                //set all  text into textView
+
+        spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected (AdapterView <?> parent, View view, int position, long id) {
+
+                if(position==0){
+                    total.setText( "180" );
+                    amount=180*1.18;
+
+                    total_amt.setText( amount.toString() );
+                }
+                else if(position==1){
+                    total.setText( "150" );
+                    amount=150*1.18;
+
+                    total_amt.setText( amount.toString() );
+                } else if(position==2){
+                    total.setText( "100" );
+                    amount=100*1.18;
+                    total_amt.setText( amount.toString() );
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected (AdapterView <?> parent) {
+
+            }
+        } );
+
+
+
                 movie_name.setText( movie_names );
                 date_set.setText( dates );
-//                seat_number.setText( "100 x" + seats );
-//                total.setText( total_am );
-//                th_name.setText( theator_name );
-//                total_amount.setText( calculate );
-//                tax_amount.setText( tax );
-//
-//                book.setOnClickListener( new View.OnClickListener() {
-//                    @Override
-//                    public void onClick (View v) {
-//                        //QR Code Generation
-//                        QRCode();
-//                        // PDF file Generation
-//                        GeneratePdf();
-//                        try
-//                            {
-//                                QRGSaver.save( Environment.getExternalStorageDirectory().getPath() + "/Book My Ticket/", movie_names, bitmap, QRGContents.ImageType.IMAGE_JPEG );
-//                                Toast.makeText( getApplication(), "Booking Successful.", Toast.LENGTH_SHORT ).show();
-//                            } catch ( WriterException e )
-//                            {
-//                                e.printStackTrace();
-//                            }
-//                    }
-//                } );
+
+                book.setOnClickListener( new View.OnClickListener() {
+                    @Override
+                    public void onClick (View v) {
+
+
+                        //QR Code Generation
+                        QRCode();
+                        // PDF file Generation
+                        GeneratePdf();
+                        try
+                            {
+                                QRGSaver.save( Environment.getExternalStorageDirectory().getPath() + "/Book My Ticket/", movie_names, bitmap, QRGContents.ImageType.IMAGE_JPEG );
+                                Toast.makeText( getApplication(), "Booking Successful.", Toast.LENGTH_SHORT ).show();
+                            } catch ( WriterException e )
+                            {
+                                e.printStackTrace();
+                            }
+                    }
+                } );
             }
 
 
@@ -109,9 +132,9 @@ public class Booking_Details extends AppCompatActivity  {
         qr.put("Movie Name :",movie_names);
         qr.put("Seats :",seats);
         qr.put("Movie Date :",dates);
-        qr.put("Movie Theator Namr",theator_name);
+        qr.put("Movie Theator Name",theator_name);
 
-        QRGEncoder movie_details =new QRGEncoder(qr.toString(), null, QRGContents.Type.TEXT, Dimension);
+        movie_details =new QRGEncoder(qr.toString(), null, QRGContents.Type.TEXT, Dimension);
         try {
 
             // Getting QR-Code as Bitmap
@@ -130,7 +153,7 @@ public class Booking_Details extends AppCompatActivity  {
         PdfWriter.getInstance( document,new FileOutputStream( file ) );
         document.open();
 
-
+        document.add( new Paragraph( "Book My Ticket" ) );
 
         PdfPTable table = new PdfPTable(2);
 
@@ -149,27 +172,25 @@ public class Booking_Details extends AppCompatActivity  {
         table.addCell(cell5);
         table.addCell(cell6);
 
-        PdfPCell cell7 = new PdfPCell(new Phrase("Ticket Cost"));
-        PdfPCell cell8 = new PdfPCell(new Phrase(calculate));
-        table.addCell(cell7);
-        table.addCell(cell8);
-
         PdfPCell cell9 = new PdfPCell(new Phrase("Tax Amount"));
-        PdfPCell cell10 =  new PdfPCell(new Phrase(tax));
+        PdfPCell cell10 =  new PdfPCell(new Phrase("18%"));
         table.addCell(cell9);
         table.addCell(cell10);
 
-        PdfPCell cell11 = new PdfPCell(new Phrase("Total Ticket Amount"));
-        PdfPCell cell12 = new PdfPCell(new Phrase(total_am));
-        table.addCell(cell11);
-        table.addCell(cell12);
+        PdfPCell cell7 = new PdfPCell(new Phrase("Total Ticket Cost"));
+        PdfPCell cell8 = new PdfPCell(new Phrase( amount.toString() ));
+        table.addCell(cell7);
+        table.addCell(cell8);
+
 
         PdfPCell cell13 = new PdfPCell(new Phrase("Movie Date"));
         PdfPCell cell14 = new PdfPCell(new Phrase(dates));
         table.addCell(cell13);
         table.addCell(cell14);
 
+
         document.add(table);
+        document.add( new Paragraph( "This is Computer Generated Invoice" ) );
 
     } catch ( DocumentException e )
     {

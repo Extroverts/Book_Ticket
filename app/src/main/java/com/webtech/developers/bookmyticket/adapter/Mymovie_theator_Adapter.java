@@ -72,6 +72,7 @@ public class Mymovie_theator_Adapter extends RecyclerView.Adapter<Mymovie_theato
                         i.putExtra( "Movie_name",mn );
                         i.putExtra( "Movie_date",dates );
                         i.putExtra( "Movie_theaator_name",myMovieData.getMovie_name());
+
                         mcontext.startActivity( i );
 
 
