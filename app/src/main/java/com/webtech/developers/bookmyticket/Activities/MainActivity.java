@@ -4,7 +4,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -27,8 +26,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -60,10 +57,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private List<Movies> moviesList;
     private AppCompatActivity activity=MainActivity.this;
     ProgressDialog progressDialog;
-    private static long back_pressed;
     private TextView username,email;
     private FirebaseAuth auth;
-    Context context;
     private FirebaseAuth.AuthStateListener authListener;
     DatabaseReference databaseReference;
     FirebaseUser user;
@@ -72,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //feedback from
     RatingBar ratingBar;
     TextInputEditText feedback;
-    Button feedback_button;
 
     private FavoriteDbHelper favoriteDbHelper;
     private static final int PERMISSION_REQUEST_CAMERA = 0;
@@ -83,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        requestCameraPermission();
+        requestStoragePermissiion();
         auth = FirebaseAuth.getInstance();
 
         //get current user
@@ -95,8 +89,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user == null) {
-                    // user auth state is changed - user is null
-                    // launch login activity
                     startActivity(new Intent(MainActivity.this, Login_Signup_Screen.class));
                     finish();
                 }
@@ -124,10 +116,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         email=header.findViewById(R.id.user_email);
         imgView=header.findViewById( R.id.imageView );
 
-        //get data from google Signin Profile
-        username.setText(user.getDisplayName());
-        email.setText(user.getEmail());
-        Picasso.with( this ).load( user.getPhotoUrl() ).into(imgView);
+            username.setText(user.getDisplayName());
+            email.setText(user.getEmail());
+            Picasso.with( this ).load( user.getPhotoUrl() ).into(imgView);
+
+
 
     }
     public void initViews() {
@@ -166,7 +159,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 super.onBackPressed();
             }
         finish();
-
     }
 
 
@@ -199,39 +191,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
              initViews2();
          } else if(id==R.id.now_playing){
              loadMovies();
-         } else if(id==R.id.upcoming_movies){
-
-         } else if(id==R.id.about_us){
-             startActivity(new Intent(MainActivity.this,Date_and_Theator_Selection.class));
+         } else if(id==R.id.events){
+            startActivity( new Intent( MainActivity.this,Events.class) );
+         } else if(id==R.id.about_us)
+             {
+                 startActivity( new Intent( MainActivity.this, About_us.class ) );
+             }else if(id==R.id.history){
+             startActivity( new Intent( MainActivity.this,BookingHistory.class ) );
          } else if(id==R.id.privacy){
              Toast.makeText( getApplicationContext(),"Updated Soon" ,Toast.LENGTH_SHORT).show();
          }else if(id==R.id.feedback){
              AlertDialog.Builder builder=new AlertDialog.Builder( MainActivity.this );
              if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP )
                  {
-
                      LayoutInflater layoutInflater=LayoutInflater.from( MainActivity.this );
                      View DialogView=layoutInflater.inflate( R.layout.feedback_form,null );
                      ratingBar=DialogView.findViewById( R.id.ratingBar );
                      feedback=DialogView.findViewById( R.id.feedback_text );
-
                      builder.setView( DialogView );
                      builder.setPositiveButton( "Submit", new DialogInterface.OnClickListener() {
                          @Override
                          public void onClick (DialogInterface dialog, int which) {
-                             final float ratingValue=ratingBar.getRating();
-                             final String getfeedback=feedback.getText().toString();
-                             databaseReference.child( "feedback" ).child( user.getDisplayName() ).child("rating").setValue( ratingValue );
-                             databaseReference.child( "feedback" ).child( user.getDisplayName() ).child("feedback").setValue( getfeedback );
-                             Toast.makeText( getApplication(),"Thank you for your feedback.",Toast.LENGTH_SHORT ).show();
-
-                             dialog.cancel();
-
+                     final float ratingValue=ratingBar.getRating();
+                     final String getfeedback=feedback.getText().toString();
+                     databaseReference.child( "feedback" ).child( user.getDisplayName() ).child("rating").setValue( ratingValue );
+                     databaseReference.child( "feedback" ).child( user.getDisplayName() ).child("feedback").setValue( getfeedback );
+                     Toast.makeText( getApplication(),"Thank you for your feedback.",Toast.LENGTH_SHORT ).show();
+                     dialog.cancel();
                          }
                      } );
                  }
              else{
-                 Toast.makeText( getApplicationContext(),"Your android does not meet minimum reqyurement to comment.",Toast.LENGTH_SHORT ).show();
+                 Toast.makeText( getApplicationContext(),"Your android does not meet minimum requirement to comment.",Toast.LENGTH_SHORT ).show();
              }
 
              builder.create().show();
@@ -282,9 +273,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 @Override
                 public void onFailure(retrofit2.Call<MovieResponse> call, Throwable t) {
-                    Log.d("Error","Error fetching");
-
-                    Toast.makeText(MainActivity.this,"Error Fetching Movies check Internet Connection",Toast.LENGTH_LONG).show();
+                    Log.d("Error",call+"trowable "+t);
+                    Toast.makeText(MainActivity.this,call+""+t,Toast.LENGTH_LONG).show();
                     progressDialog.dismiss();
                 }
             });
@@ -296,10 +286,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void signOut() {
         auth.signOut();
-    }
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     @Override
@@ -316,22 +302,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void requestCameraPermission() {
-        // Permission has not been granted and must be requested.
+    private void requestStoragePermissiion() {
+
         if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            // Provide an additional rationale to the user if the permission was not granted
-            // and the user would benefit from additional context for the use of the permission.
-            // Display a SnackBar with cda button to request the missing permission.
-
                     ActivityCompat.requestPermissions(MainActivity.this,
                             new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                             PERMISSION_REQUEST_CAMERA);
-
-
         } else {
-
-            // Request the permission. The result will be received in onRequestPermissionResult().
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CAMERA);
         }

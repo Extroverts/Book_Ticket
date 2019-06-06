@@ -2,8 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.webtech.developers.bookmyticket">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -13,11 +14,13 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".Activities.Splash_Screen">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true" >
+
+        <activity android:name=".Splash_Screen"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -26,10 +29,15 @@
         <activity
             android:name=".Activities.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme">
+
+
+        </activity>
         <activity android:name=".Activities.About_us" />
         <activity android:name=".Activities.Booking_Details" />
-        <activity android:name=".Activities.Date_and_Theator_Selection"></activity>
+        <activity android:name=".Activities.Events" />
+        <activity android:name=".Activities.EventDetails" />
+        <activity android:name=".Activities.EventBookingDetails"></activity>
     </application>
 
 </manifest>

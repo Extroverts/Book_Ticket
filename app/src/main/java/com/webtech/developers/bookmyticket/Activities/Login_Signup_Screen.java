@@ -5,6 +5,10 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -26,12 +30,19 @@ public class Login_Signup_Screen extends AppCompatActivity implements View.OnCli
 
     private static final int RC_SIGN_IN = 7;
     GoogleSignInClient googleSignInClient;
+    ImageView bookMyTicket_logo;
+    TextView skipLogin;
     private FirebaseAuth mAuth;
-
+    Animation bmtLogoAnimation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_login__signup__screen );
+        bookMyTicket_logo=findViewById( R.id.bmt_logo);
+        skipLogin=findViewById( R.id.skip_click );
+        bmtLogoAnimation=AnimationUtils.loadAnimation( getApplicationContext(),R.anim.fade_in );
+        bookMyTicket_logo.startAnimation( bmtLogoAnimation );
+
         mAuth = FirebaseAuth.getInstance();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -42,6 +53,14 @@ public class Login_Signup_Screen extends AppCompatActivity implements View.OnCli
         SignInButton signInButton = findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         findViewById(R.id.sign_in_button).setOnClickListener(this);
+
+        skipLogin.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick (View v) {
+                startActivity( new Intent( Login_Signup_Screen.this,MainActivity.class ) );
+                finish();
+            }
+        } );
 
     }
     private void signIn() {

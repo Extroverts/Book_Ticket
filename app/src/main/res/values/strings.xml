@@ -5,7 +5,7 @@
     <string name="ratings">User Ratings</string>
     <string name="release">Release Date</string>
     <string name="trailer">Trailer</string>
-    <string name="title_activity_main">Movies</string>
+    <string name="title_activity_main">Now Playing</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Book Ticket</string>
@@ -19,46 +19,16 @@
     <string name="about_version">Version</string>
     <string name="about_us">A book My simple app where  \n is users can book application.</string>
     <string name="terms_and_conditions">Terms and Conditions</string>
-    <string name="_1_0_1">1.0.3</string>
+    <string name="_1_0_1">1.0.5</string>
     <string name="last_update">Last Update</string>
     <string name="january_2019">April 2019</string>
     <string name="todo">Back Image</string>
     <string name="sign_in_with_google_to_book_tickets_easily">Sign in with Google to Book Tickets Easily</string>
     <string name="select_seat">Select Seat</string>
-    <string name="movie_names">Movie Name</string>
-    <string name="booking_details">Booking Details</string>
-    <string name="actual_date">actual_date</string>
-    <string name="golden_seats">Golden Seats</string>
-    <string name="ticket_details">Ticket Details</string>
-    <string name="seatnumber">SeatNumber</string>
-    <string name="amount">Amount</string>
-    <string name="text">text</string>
-    <string name="tax_amount">Tax amount</string>
-    <string name="ytt">ytt</string>
-    <string name="total_amount">Total Amount</string>
-    <string name="theator_name">Theator_name</string>
-    <string name="textview">TextView</string>
     <string name="book">Book</string>
-    <string name="date">Date :</string>
     <string name="card">card View</string>
-    <string name="select_date">Select Date</string>
-    <string name="_1">1</string>
-    <string name="_2">2</string>
-    <string name="_3">3</string>
-    <string name="_4">4</string>
-    <string name="_5">5</string>
     <string name="inox_movies">INOX Movies</string>
-    <string name="pvr">PVR</string>
-    <string name="city_pride">City Pride</string>
-    <string name="abc_movies">ABC movies</string>
-    <string name="jai_ganesh_inox">Jai Ganesh INOX</string>
-    <string name="select_movie_theator">Select Movie Theator</string>
-
-    <string-array name="booking_details">
-        <item>Platimun  ₹180</item>
-        <item>Gold ₹150</item>
-        <item>Silver ₹100</item>
-    </string-array>
+    <string name="history">History</string>
 
     <string-array name="seat">
         <item>1</item>
@@ -66,5 +36,27 @@
         <item>3</item>
         <item>4</item>
         <item>5</item>
+    </string-array>
+
+    <string-array name="th_name">
+        <item>INOX</item>
+        <item>Jai Ganesh Movie Theator</item>
+        <item>PVR</item>
+        <item>ABC Movies</item>
+        <item>OM Movie</item>
+    </string-array>
+
+    <string-array name="time">
+        <item>8:30</item>
+        <item>12:00</item>
+        <item>3:00</item>
+        <item>6:00</item>
+        <item>9:00</item>
+
+    </string-array>
+
+    <string-array name="amount">
+        <item>Golden</item>
+        <item>Silver</item>
     </string-array>
 </resources>

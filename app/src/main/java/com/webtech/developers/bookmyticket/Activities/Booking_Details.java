@@ -3,6 +3,7 @@ package com.webtech.developers.bookmyticket.Activities;
 
 import android.graphics.Bitmap;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,13 +13,16 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.zxing.WriterException;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -29,7 +33,6 @@ import com.webtech.developers.bookmyticket.R;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.net.URL;
 import java.util.HashMap;
 
 import androidmads.library.qrgenearator.QRGContents;
@@ -38,80 +41,62 @@ import androidmads.library.qrgenearator.QRGSaver;
 
 public class Booking_Details extends AppCompatActivity  {
 
-
-    TextView movie_name,date_set,seat_number,total_amt,tax_amount,total,th_name;
-    String movie_names,seats,dates,theator_name,calculate,tax,total_am;
-    int Dimension=1000;
+    private static final String TAG = "Firebase";
     final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    Button book;
-    Bitmap bitmap ;
-    Spinner spinner;
-    Double amount;
-    QRGEncoder movie_details;
+        HashMap<String,String> qr=new HashMap<String, String>();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        TextView movie_name,movie_date,th_name,seat,amount;
+        String moviename,moviedate,thname,seats,movietime;
+        QRGEncoder movie_details;
+        int Dimension=1000;
+
+        int amounts=1,seatamount;
+        Bitmap bitmap ;
+        Button book;
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_booking__details );
 
-        spinner=findViewById( R.id.spinner );
 
-        total=findViewById( R.id.total );
-        total_amt=findViewById( R.id.total_amt );
+        movie_name=findViewById( R.id.movie_name );
+        movie_date=findViewById( R.id.movie_date );
+        th_name=findViewById( R.id.th_name );
+        seat=findViewById( R.id.seats );
+        amount=findViewById( R.id.amt );
         book=findViewById( R.id.book );
 
-                movie_names = getIntent().getStringExtra( "Movie_name" );
-                dates = getIntent().getStringExtra( "Movie_date" );
-               theator_name = getIntent().getStringExtra( "Movie_theaator_name" );
-                movie_name = findViewById( R.id.movie_name );
-                    date_set = findViewById( R.id.date_s );
+        moviename=getIntent().getStringExtra( "movie_name" );
+        moviedate=getIntent().getStringExtra( "date" );
+        thname=getIntent().getExtras().getString( "thname" );
+        seats=getIntent().getStringExtra( "seats" );
+        movietime=getIntent().getStringExtra( "movie_time" );
 
-        spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected (AdapterView <?> parent, View view, int position, long id) {
+        String m=seats;
 
-                if(position==0){
-                    total.setText( "180" );
-                    amount=180*1.18;
+       final int abc=Integer.parseInt( m );
 
-                    total_amt.setText( amount.toString() );
-                }
-                else if(position==1){
-                    total.setText( "150" );
-                    amount=150*1.18;
+        seatamount=abc*180;
+        movie_name.setText( moviename );
+        movie_date.setText( moviedate );
+        th_name.setText( thname );
+        seat.setText( seats );
+        amount.setText(""+ String.valueOf( seatamount ) );
 
-                    total_amt.setText( amount.toString() );
-                } else if(position==2){
-                    total.setText( "100" );
-                    amount=100*1.18;
-                    total_amt.setText( amount.toString() );
-
-                }
-            }
-
-            @Override
-            public void onNothingSelected (AdapterView <?> parent) {
-
-            }
-        } );
-
-
-
-                movie_name.setText( movie_names );
-                date_set.setText( dates );
 
                 book.setOnClickListener( new View.OnClickListener() {
                     @Override
                     public void onClick (View v) {
-
-
                         //QR Code Generation
                         QRCode();
                         // PDF file Generation
                         GeneratePdf();
+                        //insert into db for user history
+                        insertdatatodatabase();
                         try
                             {
-                                QRGSaver.save( Environment.getExternalStorageDirectory().getPath() + "/Book My Ticket/", movie_names, bitmap, QRGContents.ImageType.IMAGE_JPEG );
+                                QRGSaver.save( Environment.getExternalStorageDirectory().getPath() + "/Book My Ticket/", moviename, bitmap, QRGContents.ImageType.IMAGE_JPEG );
                                 Toast.makeText( getApplication(), "Booking Successful.", Toast.LENGTH_SHORT ).show();
                             } catch ( WriterException e )
                             {
@@ -122,17 +107,20 @@ public class Booking_Details extends AppCompatActivity  {
             }
 
 
+
+
     //QR Code Generation COde
     public void QRCode(){
 
         // Initializing the QR Encoder with your value to be encoded, type you required and Dimension
-        HashMap<String,String> qr=new HashMap<String, String>();
+
         qr.put("User Details",user.getDisplayName());
         qr.put("User Email",user.getEmail());
-        qr.put("Movie Name :",movie_names);
+        qr.put("name",moviename);
         qr.put("Seats :",seats);
-        qr.put("Movie Date :",dates);
-        qr.put("Movie Theator Name",theator_name);
+        qr.put("date",moviedate);
+        qr.put("Movie Theator Name",thname);
+        qr.put( "amount",String.valueOf( seatamount ) );
 
         movie_details =new QRGEncoder(qr.toString(), null, QRGContents.Type.TEXT, Dimension);
         try {
@@ -149,7 +137,7 @@ public class Booking_Details extends AppCompatActivity  {
 
         try
     {
-        File file= new File( Environment.getExternalStorageDirectory().getPath() + "/Book My Ticket/"+ movie_names+".pdf" );
+        File file= new File( Environment.getExternalStorageDirectory().getPath() + "/Book My Ticket/"+ moviename+".pdf" );
         PdfWriter.getInstance( document,new FileOutputStream( file ) );
         document.open();
 
@@ -168,23 +156,22 @@ public class Booking_Details extends AppCompatActivity  {
         table.addCell(cell4);
 
         PdfPCell cell5 = new PdfPCell(new Phrase("Movie Name"));
-        PdfPCell cell6 = new PdfPCell(new Phrase(movie_names));
+        PdfPCell cell6 = new PdfPCell(new Phrase(moviename));
         table.addCell(cell5);
         table.addCell(cell6);
 
-        PdfPCell cell9 = new PdfPCell(new Phrase("Tax Amount"));
-        PdfPCell cell10 =  new PdfPCell(new Phrase("18%"));
-        table.addCell(cell9);
-        table.addCell(cell10);
-
         PdfPCell cell7 = new PdfPCell(new Phrase("Total Ticket Cost"));
-        PdfPCell cell8 = new PdfPCell(new Phrase( amount.toString() ));
+        PdfPCell cell8 = new PdfPCell(new Phrase( String.valueOf( seatamount ) ));
         table.addCell(cell7);
         table.addCell(cell8);
 
+        PdfPCell cell9 = new PdfPCell(new Phrase("Total Seat"));
+        PdfPCell cell10 = new PdfPCell(new Phrase( String.valueOf( seats ) ));
+        table.addCell(cell9);
+        table.addCell(cell10);
 
         PdfPCell cell13 = new PdfPCell(new Phrase("Movie Date"));
-        PdfPCell cell14 = new PdfPCell(new Phrase(dates));
+        PdfPCell cell14 = new PdfPCell(new Phrase(moviedate));
         table.addCell(cell13);
         table.addCell(cell14);
 
@@ -203,5 +190,23 @@ public class Booking_Details extends AppCompatActivity  {
         document.close();
     }
 
-}
+    private void insertdatatodatabase ( ) {
+        db.collection("usersHistory")
+                .add(qr)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                    }
+                });
+
+    }
+
+    }
 

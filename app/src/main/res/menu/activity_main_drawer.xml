@@ -9,20 +9,15 @@
             android:icon="@drawable/ic_local_play_black_24dp"
             android:title="Now Playing" />
         <item
-            android:icon="@drawable/ic_movie_black_24dp"
-            android:title="Popular Movies" />
-        <item
-            android:id="@+id/upcoming_movies"
-            android:icon="@drawable/ic_movie_filter_black_24dp"
-            android:title="Upcoming Movies" />
-        <item
             android:id="@+id/fav_movies"
             android:icon="@drawable/ic_favorite_black_24dp"
             android:title="Favorite Movies" />
         <item
+            android:id="@+id/events"
             android:icon="@drawable/ic_event_black_24dp"
             android:title="Events" />
         <item
+            android:id="@+id/history"
             android:icon="@drawable/ic_history_black_24dp"
             android:title="History" />
     </group>
