@@ -37,6 +37,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 import com.webtech.developers.bookmyticket.BuildConfig;
+import com.webtech.developers.bookmyticket.History;
 import com.webtech.developers.bookmyticket.Models.MovieResponse;
 import com.webtech.developers.bookmyticket.Models.Movies;
 import com.webtech.developers.bookmyticket.R;
@@ -45,6 +46,7 @@ import com.webtech.developers.bookmyticket.api.Client;
 import com.webtech.developers.bookmyticket.data.FavoriteDbHelper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Callback;
@@ -119,8 +121,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             username.setText(user.getDisplayName());
             email.setText(user.getEmail());
             Picasso.with( this ).load( user.getPhotoUrl() ).into(imgView);
-
-
 
     }
     public void initViews() {
@@ -197,27 +197,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
              {
                  startActivity( new Intent( MainActivity.this, About_us.class ) );
              }else if(id==R.id.history){
-             startActivity( new Intent( MainActivity.this,BookingHistory.class ) );
+             startActivity( new Intent( MainActivity.this,History.class ) );
          } else if(id==R.id.privacy){
              Toast.makeText( getApplicationContext(),"Updated Soon" ,Toast.LENGTH_SHORT).show();
          }else if(id==R.id.feedback){
              AlertDialog.Builder builder=new AlertDialog.Builder( MainActivity.this );
              if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP )
                  {
-                     LayoutInflater layoutInflater=LayoutInflater.from( MainActivity.this );
-                     View DialogView=layoutInflater.inflate( R.layout.feedback_form,null );
-                     ratingBar=DialogView.findViewById( R.id.ratingBar );
-                     feedback=DialogView.findViewById( R.id.feedback_text );
+                     LayoutInflater layoutInflater = LayoutInflater.from( MainActivity.this );
+                     View DialogView = layoutInflater.inflate( R.layout.feedback_form, null );
+                     ratingBar = DialogView.findViewById( R.id.ratingBar );
+                     feedback = DialogView.findViewById( R.id.feedback_text );
                      builder.setView( DialogView );
                      builder.setPositiveButton( "Submit", new DialogInterface.OnClickListener() {
                          @Override
                          public void onClick (DialogInterface dialog, int which) {
-                     final float ratingValue=ratingBar.getRating();
-                     final String getfeedback=feedback.getText().toString();
-                     databaseReference.child( "feedback" ).child( user.getDisplayName() ).child("rating").setValue( ratingValue );
-                     databaseReference.child( "feedback" ).child( user.getDisplayName() ).child("feedback").setValue( getfeedback );
-                     Toast.makeText( getApplication(),"Thank you for your feedback.",Toast.LENGTH_SHORT ).show();
-                     dialog.cancel();
+                             final float ratingValue = ratingBar.getRating();
+                             final String getfeedback = feedback.getText().toString();
+                             if ( getfeedback.isEmpty() && ratingValue == 0 )
+                                 {
+                                    Toast.makeText( getApplicationContext(),"fill all details",Toast.LENGTH_SHORT ).show();
+                                 } else
+                                 {
+                                     HashMap map=new HashMap( );
+                                     map.put( "rating",ratingValue );
+                                     map.put( "feedback",getfeedback );
+                                     databaseReference.child( "feedback" ).push().child( user.getDisplayName() ).setValue( map );
+                                     Toast.makeText( getApplication(), "Thank you for your feedback.", Toast.LENGTH_SHORT ).show();
+                                     dialog.cancel();
+                                 }
                          }
                      } );
                  }

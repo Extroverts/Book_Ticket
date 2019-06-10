@@ -179,7 +179,6 @@ public class DetailActivity extends AppCompatActivity {
                     now.add( Calendar.DAY_OF_MONTH,1 );
 
                 }
-                Log.d("ahjskhda ", Arrays.toString( days ) );
 
                 ArrayAdapter<String> arrayAdapt=new ArrayAdapter<String>( DetailActivity.this,android.R.layout.simple_spinner_item,days );
                 spinner1.setAdapter( arrayAdapt );

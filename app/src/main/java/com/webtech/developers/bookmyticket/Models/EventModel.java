@@ -34,7 +34,6 @@ public class EventModel {
         this.date = date;
     }
 
-
     public String getVenue ( ) {
         return venue;
     }

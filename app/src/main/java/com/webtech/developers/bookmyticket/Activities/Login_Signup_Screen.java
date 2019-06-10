@@ -31,7 +31,6 @@ public class Login_Signup_Screen extends AppCompatActivity implements View.OnCli
     private static final int RC_SIGN_IN = 7;
     GoogleSignInClient googleSignInClient;
     ImageView bookMyTicket_logo;
-    TextView skipLogin;
     private FirebaseAuth mAuth;
     Animation bmtLogoAnimation;
     @Override
@@ -39,7 +38,7 @@ public class Login_Signup_Screen extends AppCompatActivity implements View.OnCli
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_login__signup__screen );
         bookMyTicket_logo=findViewById( R.id.bmt_logo);
-        skipLogin=findViewById( R.id.skip_click );
+
         bmtLogoAnimation=AnimationUtils.loadAnimation( getApplicationContext(),R.anim.fade_in );
         bookMyTicket_logo.startAnimation( bmtLogoAnimation );
 
@@ -54,13 +53,6 @@ public class Login_Signup_Screen extends AppCompatActivity implements View.OnCli
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         findViewById(R.id.sign_in_button).setOnClickListener(this);
 
-        skipLogin.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick (View v) {
-                startActivity( new Intent( Login_Signup_Screen.this,MainActivity.class ) );
-                finish();
-            }
-        } );
 
     }
     private void signIn() {

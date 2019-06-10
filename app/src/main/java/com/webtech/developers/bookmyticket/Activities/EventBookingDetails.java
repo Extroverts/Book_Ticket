@@ -170,7 +170,6 @@ public class EventBookingDetails extends AppCompatActivity {
 
     public void GeneratePdf(){
         Document document=new Document(  );
-
         try
             {
                 File file= new File( Environment.getExternalStorageDirectory().getPath() + "/Book My Ticket/" + name + ".pdf" );

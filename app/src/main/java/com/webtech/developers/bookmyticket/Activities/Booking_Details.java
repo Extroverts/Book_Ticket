@@ -39,20 +39,20 @@ import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
 import androidmads.library.qrgenearator.QRGSaver;
 
-public class Booking_Details extends AppCompatActivity  {
+public class Booking_Details extends AppCompatActivity {
 
     private static final String TAG = "Firebase";
     final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        HashMap<String,String> qr=new HashMap<String, String>();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        TextView movie_name,movie_date,th_name,seat,amount;
-        String moviename,moviedate,thname,seats,movietime;
-        QRGEncoder movie_details;
-        int Dimension=1000;
+    HashMap <String, String> qr = new HashMap <String, String>();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    TextView movie_name, movie_date, th_name, seat, amount;
+    String moviename, moviedate, thname, seats, movietime;
+    QRGEncoder movie_details;
+    int Dimension = 1000;
 
-        int amounts=1,seatamount;
-        Bitmap bitmap ;
-        Button book;
+    int amounts = 1, seatamount;
+    Bitmap bitmap;
+    Button book;
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -60,153 +60,152 @@ public class Booking_Details extends AppCompatActivity  {
         setContentView( R.layout.activity_booking__details );
 
 
-        movie_name=findViewById( R.id.movie_name );
-        movie_date=findViewById( R.id.movie_date );
-        th_name=findViewById( R.id.th_name );
-        seat=findViewById( R.id.seats );
-        amount=findViewById( R.id.amt );
-        book=findViewById( R.id.book );
+        movie_name = findViewById( R.id.movie_name );
+        movie_date = findViewById( R.id.movie_date );
+        th_name = findViewById( R.id.th_name );
+        seat = findViewById( R.id.seats );
+        amount = findViewById( R.id.amt );
+        book = findViewById( R.id.book );
 
-        moviename=getIntent().getStringExtra( "movie_name" );
-        moviedate=getIntent().getStringExtra( "date" );
-        thname=getIntent().getExtras().getString( "thname" );
-        seats=getIntent().getStringExtra( "seats" );
-        movietime=getIntent().getStringExtra( "movie_time" );
+        moviename = getIntent().getStringExtra( "movie_name" );
+        moviedate = getIntent().getStringExtra( "date" );
+        thname = getIntent().getExtras().getString( "thname" );
+        seats = getIntent().getStringExtra( "seats" );
+        movietime = getIntent().getStringExtra( "movie_time" );
 
-        String m=seats;
+        String m = seats;
 
-       final int abc=Integer.parseInt( m );
+        final int abc = Integer.parseInt( m );
 
-        seatamount=abc*180;
+        seatamount = abc * 180;
         movie_name.setText( moviename );
         movie_date.setText( moviedate );
         th_name.setText( thname );
         seat.setText( seats );
-        amount.setText(""+ String.valueOf( seatamount ) );
+        amount.setText( "" + String.valueOf( seatamount ) );
 
 
-                book.setOnClickListener( new View.OnClickListener() {
-                    @Override
-                    public void onClick (View v) {
-                        //QR Code Generation
-                        QRCode();
-                        // PDF file Generation
-                        GeneratePdf();
-                        //insert into db for user history
-                        insertdatatodatabase();
-                        try
-                            {
-                                QRGSaver.save( Environment.getExternalStorageDirectory().getPath() + "/Book My Ticket/", moviename, bitmap, QRGContents.ImageType.IMAGE_JPEG );
-                                Toast.makeText( getApplication(), "Booking Successful.", Toast.LENGTH_SHORT ).show();
-                            } catch ( WriterException e )
-                            {
-                                e.printStackTrace();
-                            }
+        book.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick (View v) {
+                //QR Code Generation
+                QRCode();
+                // PDF file Generation
+                GeneratePdf();
+                //insert into db for user history
+                insertdatatodatabase();
+                try
+                    {
+                        QRGSaver.save( Environment.getExternalStorageDirectory().getPath() + "/Book My Ticket/", moviename, bitmap, QRGContents.ImageType.IMAGE_JPEG );
+                        Toast.makeText( getApplication(), "Booking Successful.", Toast.LENGTH_SHORT ).show();
+                    } catch ( WriterException e )
+                    {
+                        e.printStackTrace();
                     }
-                } );
             }
-
-
+        } );
+    }
 
 
     //QR Code Generation COde
-    public void QRCode(){
+    public void QRCode ( ) {
 
         // Initializing the QR Encoder with your value to be encoded, type you required and Dimension
 
-        qr.put("User Details",user.getDisplayName());
-        qr.put("User Email",user.getEmail());
-        qr.put("name",moviename);
-        qr.put("Seats :",seats);
-        qr.put("date",moviedate);
-        qr.put("Movie Theator Name",thname);
-        qr.put( "amount",String.valueOf( seatamount ) );
+        qr.put( "User Details", user.getDisplayName() );
+        qr.put( "User Email", user.getEmail() );
+        qr.put( "name", moviename );
+        qr.put( "Seats :", seats );
+        qr.put( "date", moviedate );
+        qr.put( "Movie Theator Name", thname );
+        qr.put( "amount", String.valueOf( seatamount ) );
 
-        movie_details =new QRGEncoder(qr.toString(), null, QRGContents.Type.TEXT, Dimension);
-        try {
+        movie_details = new QRGEncoder( qr.toString(), null, QRGContents.Type.TEXT, Dimension );
+        try
+            {
 
-            // Getting QR-Code as Bitmap
-           bitmap=movie_details.encodeAsBitmap();
-        } catch (WriterException e) {
-            Log.v("QR Code Error ", e.toString());
-        }
+                // Getting QR-Code as Bitmap
+                bitmap = movie_details.encodeAsBitmap();
+            } catch ( WriterException e )
+            {
+                Log.v( "QR Code Error ", e.toString() );
+            }
     }
 
-    public void GeneratePdf(){
-    Document document=new Document(  );
+    public void GeneratePdf ( ) {
+        Document document = new Document();
 
         try
-    {
-        File file= new File( Environment.getExternalStorageDirectory().getPath() + "/Book My Ticket/"+ moviename+".pdf" );
-        PdfWriter.getInstance( document,new FileOutputStream( file ) );
-        document.open();
+            {
+                File file = new File( Environment.getExternalStorageDirectory().getPath() + "/Book My Ticket/" + moviename + ".pdf" );
+                PdfWriter.getInstance( document, new FileOutputStream( file ) );
+                document.open();
 
-        document.add( new Paragraph( "Book My Ticket" ) );
+                document.add( new Paragraph( "Book My Ticket" ) );
 
-        PdfPTable table = new PdfPTable(2);
+                PdfPTable table = new PdfPTable( 2 );
 
-        PdfPCell cell1 = new PdfPCell(new Phrase("User Details"));
-        PdfPCell cell2 = new PdfPCell(new Phrase(user.getDisplayName()));
-        table.addCell(cell1);
-        table.addCell(cell2);
+                PdfPCell cell1 = new PdfPCell( new Phrase( "User Details" ) );
+                PdfPCell cell2 = new PdfPCell( new Phrase( user.getDisplayName() ) );
+                table.addCell( cell1 );
+                table.addCell( cell2 );
 
-        PdfPCell cell3 = new PdfPCell(new Phrase("User Email"));
-        PdfPCell cell4 = new PdfPCell(new Phrase(user.getEmail()));
-        table.addCell(cell3);
-        table.addCell(cell4);
+                PdfPCell cell3 = new PdfPCell( new Phrase( "User Email" ) );
+                PdfPCell cell4 = new PdfPCell( new Phrase( user.getEmail() ) );
+                table.addCell( cell3 );
+                table.addCell( cell4 );
 
-        PdfPCell cell5 = new PdfPCell(new Phrase("Movie Name"));
-        PdfPCell cell6 = new PdfPCell(new Phrase(moviename));
-        table.addCell(cell5);
-        table.addCell(cell6);
+                PdfPCell cell5 = new PdfPCell( new Phrase( "Movie Name" ) );
+                PdfPCell cell6 = new PdfPCell( new Phrase( moviename ) );
+                table.addCell( cell5 );
+                table.addCell( cell6 );
 
-        PdfPCell cell7 = new PdfPCell(new Phrase("Total Ticket Cost"));
-        PdfPCell cell8 = new PdfPCell(new Phrase( String.valueOf( seatamount ) ));
-        table.addCell(cell7);
-        table.addCell(cell8);
+                PdfPCell cell7 = new PdfPCell( new Phrase( "Total Ticket Cost" ) );
+                PdfPCell cell8 = new PdfPCell( new Phrase( String.valueOf( seatamount ) ) );
+                table.addCell( cell7 );
+                table.addCell( cell8 );
 
-        PdfPCell cell9 = new PdfPCell(new Phrase("Total Seat"));
-        PdfPCell cell10 = new PdfPCell(new Phrase( String.valueOf( seats ) ));
-        table.addCell(cell9);
-        table.addCell(cell10);
+                PdfPCell cell9 = new PdfPCell( new Phrase( "Total Seat" ) );
+                PdfPCell cell10 = new PdfPCell( new Phrase( String.valueOf( seats ) ) );
+                table.addCell( cell9 );
+                table.addCell( cell10 );
 
-        PdfPCell cell13 = new PdfPCell(new Phrase("Movie Date"));
-        PdfPCell cell14 = new PdfPCell(new Phrase(moviedate));
-        table.addCell(cell13);
-        table.addCell(cell14);
+                PdfPCell cell13 = new PdfPCell( new Phrase( "Movie Date" ) );
+                PdfPCell cell14 = new PdfPCell( new Phrase( moviedate ) );
+                table.addCell( cell13 );
+                table.addCell( cell14 );
 
 
-        document.add(table);
-        document.add( new Paragraph( "This is Computer Generated Invoice" ) );
+                document.add( table );
+                document.add( new Paragraph( "This is Computer Generated Invoice" ) );
 
-    } catch ( DocumentException e )
-    {
-        e.printStackTrace();
+            } catch ( DocumentException e )
+            {
+                e.printStackTrace();
 
-    } catch ( FileNotFoundException e )
-    {
-        e.printStackTrace();
-    }
+            } catch ( FileNotFoundException e )
+            {
+                e.printStackTrace();
+            }
         document.close();
     }
 
     private void insertdatatodatabase ( ) {
-        db.collection("usersHistory")
-                .add(qr)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        db.collection( "usersHistory" ).document( user.getDisplayName() )
+                .set( qr )
+                .addOnSuccessListener( new OnSuccessListener <Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                    public void onSuccess (Void aVoid) {
+                        Log.d( TAG, "DocumentSnapshot successfully written!" );
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
+                } )
+                .addOnFailureListener( new OnFailureListener() {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
+                    public void onFailure (@NonNull Exception e) {
+                        Log.w( TAG, "Error writing document", e );
                     }
-                });
+                } );
 
     }
 
-    }
-
+}

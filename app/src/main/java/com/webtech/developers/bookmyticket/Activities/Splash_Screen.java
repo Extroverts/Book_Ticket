@@ -1,4 +1,4 @@
-package com.webtech.developers.bookmyticket;
+package com.webtech.developers.bookmyticket.Activities;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -17,8 +17,7 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.webtech.developers.bookmyticket.Activities.Login_Signup_Screen;
-import com.webtech.developers.bookmyticket.Activities.MainActivity;
+import com.webtech.developers.bookmyticket.R;
 
 public class Splash_Screen extends AppCompatActivity {
 
@@ -28,7 +27,7 @@ public class Splash_Screen extends AppCompatActivity {
     ConstraintLayout constraintLayout;
     ConnectivityManager cm;
     FirebaseUser user;
-    @SuppressLint("MissingPermission")
+
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
