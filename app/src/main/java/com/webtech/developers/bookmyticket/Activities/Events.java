@@ -48,7 +48,7 @@ public class Events extends AppCompatActivity {
         setContentView( R.layout.activity_events );
 
         recyclerView= findViewById( R.id.rv );
-        btn=findViewById( R.id.back_press);
+        btn=findViewById( R.id.back);
         recyclerView.setLayoutManager( new LinearLayoutManager( this ) );
 
         databaseReference=FirebaseDatabase.getInstance().getReference("Events");
@@ -62,18 +62,6 @@ public class Events extends AppCompatActivity {
                 holder.name.setText( model.getName() );
                 holder.date.setText( model.getDate() );
 
-                holder.itemView.setOnClickListener( new View.OnClickListener() {
-                    @Override
-                    public void onClick (View v) {
-
-                        Intent eventdetails=new Intent( Events.this,EventDetails.class );
-                        eventdetails.putExtra( "event_name",model.getName() );
-                        eventdetails.putExtra( "event_date",model.getDate() );
-                        eventdetails.putExtra( "event_desc",model.getDesc() );
-                        eventdetails.putExtra( "event_venue" ,model.getVenue());
-                        startActivity( eventdetails );
-                    }
-                } );
 
                 holder.btn.setOnClickListener( new View.OnClickListener() {
                     @Override
@@ -94,6 +82,13 @@ public class Events extends AppCompatActivity {
         };
 
         recyclerView.setAdapter( firebaseRecyclerAdapter );
+
+        btn.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick (View v) {
+                startActivity( new Intent( Events.this,MainActivity.class ) );
+            }
+        } );
 
     }
 }

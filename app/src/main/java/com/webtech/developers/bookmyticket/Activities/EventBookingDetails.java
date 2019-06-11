@@ -1,5 +1,6 @@
 package com.webtech.developers.bookmyticket.Activities;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +55,7 @@ public class EventBookingDetails extends AppCompatActivity {
     Spinner spinner;
     Double amount;
     QRGEncoder movie_details;
+    ImageView back;
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -64,6 +67,7 @@ public class EventBookingDetails extends AppCompatActivity {
         eventname=findViewById( R.id.eventname );
         total_amt=findViewById( R.id.total_amt );
         book=findViewById( R.id.book );
+        back=findViewById( R.id.back );
         name=getIntent().getStringExtra( "event_name" );
          date=getIntent().getStringExtra( "event_date" );
          desc=getIntent().getStringExtra( "event_desc" );
@@ -134,10 +138,18 @@ public class EventBookingDetails extends AppCompatActivity {
                     {
                         QRGSaver.save( Environment.getExternalStorageDirectory().getPath() + "/Book My Ticket/", name, bitmap, QRGContents.ImageType.IMAGE_JPEG );
                         Toast.makeText( getApplication(), "Booking Successful.", Toast.LENGTH_SHORT ).show();
+                        startActivity( new Intent( EventBookingDetails.this,Events.class ) );
                     } catch ( WriterException e )
                     {
                         e.printStackTrace();
                     }
+            }
+        } );
+
+        back.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick (View v) {
+                startActivity( new Intent( EventBookingDetails.this,Events.class ));
             }
         } );
     }

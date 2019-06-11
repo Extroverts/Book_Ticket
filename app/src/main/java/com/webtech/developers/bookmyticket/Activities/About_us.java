@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -43,52 +44,11 @@ public class About_us extends AppCompatActivity {
         term.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick (View v) {
-                webView.setVisibility( View.VISIBLE );
-                startWebView( "https://www.google.com" );
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://developer.android.com/studio/terms"));
+                startActivity(browserIntent);
             }
         } );
     }
 
-    //Rules and regulations
-    private void startWebView (String url) {
-        webView.setWebViewClient( new WebViewClient() {
-            ProgressDialog progressDialog;
+        }
 
-            public boolean shouldOverrideUrlLoading (WebView view, String url) {
-                view.loadUrl( url );
-                return true;
-            }
-
-            public void onLoadResource (WebView view, String url) {
-                if ( progressDialog == null )
-                    {
-                        progressDialog = new ProgressDialog( About_us.this );
-                        progressDialog.setMessage( "Loading..." );
-                        progressDialog.show();
-                    }
-            }
-
-            public void onPageFinished (WebView view, String url) {
-                try
-                    {
-                        if ( progressDialog.isShowing() )
-                            {
-                                progressDialog.dismiss();
-                                progressDialog = null;
-                            }
-                    } catch ( Exception exception )
-                    {
-                        exception.printStackTrace();
-                    }
-            }
-
-        } );
-        webView.getSettings().setJavaScriptEnabled( true );
-        webView.loadUrl( url );
-
-
-    }
-
-
-
-}

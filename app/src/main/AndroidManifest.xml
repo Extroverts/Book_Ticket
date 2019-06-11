@@ -34,7 +34,6 @@
         <activity android:name=".Activities.About_us" />
         <activity android:name=".Activities.Booking_Details" />
         <activity android:name=".Activities.Events" />
-        <activity android:name=".Activities.EventDetails" />
         <activity android:name=".Activities.EventBookingDetails" />
         <activity android:name=".History"></activity>
     </application>

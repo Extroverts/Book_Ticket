@@ -329,7 +329,6 @@ public class DetailActivity extends AppCompatActivity {
                     recyclerView.smoothScrollToPosition(0);
                     Log.e("POSERR",trailers.toString());
                 }
-
                 @Override
                 public void onFailure(Call<TrailerResponse> call, Throwable t) {
                     Toast.makeText(DetailActivity.this,"Error Loading Trailer",Toast.LENGTH_SHORT).show();

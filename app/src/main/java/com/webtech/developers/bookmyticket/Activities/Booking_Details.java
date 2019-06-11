@@ -1,6 +1,7 @@
 package com.webtech.developers.bookmyticket.Activities;
 
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -98,6 +99,7 @@ public class Booking_Details extends AppCompatActivity {
                     {
                         QRGSaver.save( Environment.getExternalStorageDirectory().getPath() + "/Book My Ticket/", moviename, bitmap, QRGContents.ImageType.IMAGE_JPEG );
                         Toast.makeText( getApplication(), "Booking Successful.", Toast.LENGTH_SHORT ).show();
+                        startActivity( new Intent( Booking_Details.this,MainActivity.class ) );
                     } catch ( WriterException e )
                     {
                         e.printStackTrace();
@@ -111,7 +113,6 @@ public class Booking_Details extends AppCompatActivity {
     public void QRCode ( ) {
 
         // Initializing the QR Encoder with your value to be encoded, type you required and Dimension
-
         qr.put( "User Details", user.getDisplayName() );
         qr.put( "User Email", user.getEmail() );
         qr.put( "name", moviename );
