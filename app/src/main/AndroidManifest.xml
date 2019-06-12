@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -35,7 +36,7 @@
         <activity android:name=".Activities.Booking_Details" />
         <activity android:name=".Activities.Events" />
         <activity android:name=".Activities.EventBookingDetails" />
-        <activity android:name=".History"></activity>
+        <activity android:name=".Activities.BookingHistory"></activity>
     </application>
 
 </manifest>

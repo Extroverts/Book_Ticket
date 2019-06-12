@@ -6,7 +6,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,7 +37,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 import com.webtech.developers.bookmyticket.BuildConfig;
-import com.webtech.developers.bookmyticket.History;
 import com.webtech.developers.bookmyticket.Models.MovieResponse;
 import com.webtech.developers.bookmyticket.Models.Movies;
 import com.webtech.developers.bookmyticket.R;
@@ -162,17 +161,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if (requestCode == PERMISSION_REQUEST_CAMERA) {
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            } else {
-               Toast.makeText( getApplicationContext(),"Permission not granted",Toast.LENGTH_SHORT ).show();
-            }
-        }
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -183,10 +171,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
            signOut();
 
          }else if ( id==R.id.nav_share){
-            Intent share=new Intent(Intent.ACTION_SEND);
-            share.setType("text/plain");
-            share.putExtra(Intent.EXTRA_TEXT,R.string.extra_sending_text);
-            startActivity(Intent.createChooser(share,getString(R.string.share_intent)));
+
+             Intent shareIntent=new Intent();
+             shareIntent.setAction( Intent.ACTION_SEND );
+             shareIntent.putExtra( Intent.EXTRA_TEXT,"Download the App to book tickets easily" );
+             shareIntent.setType( "text/plain" );
+             startActivity( shareIntent );
+
          } else if(id== R.id.fav_movies){
              initViews2();
          } else if(id==R.id.now_playing){
@@ -197,9 +188,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
              {
                  startActivity( new Intent( MainActivity.this, About_us.class ) );
              }else if(id==R.id.history){
-             startActivity( new Intent( MainActivity.this,History.class ) );
+             startActivity( new Intent( MainActivity.this,BookingHistory.class ) );
          } else if(id==R.id.privacy){
-             Toast.makeText( getApplicationContext(),"Updated Soon" ,Toast.LENGTH_SHORT).show();
+             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.termsfeed.com/blog/privacy-policy-mobile-apps/"));
+             startActivity(browserIntent);
          }else if(id==R.id.feedback){
              AlertDialog.Builder builder=new AlertDialog.Builder( MainActivity.this );
              if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP )

@@ -22,7 +22,6 @@ public class About_us extends AppCompatActivity {
 
     ImageView back;
     TextView term;
-    WebView webView;
     Context mContext;
 
     @Override
@@ -32,7 +31,6 @@ public class About_us extends AppCompatActivity {
         back = findViewById( R.id.back );
         term = findViewById( R.id.terms );
         mContext = getApplicationContext();
-        webView = findViewById( R.id.web );
         back.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick (View v) {

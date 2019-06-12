@@ -1,10 +1,16 @@
 package com.webtech.developers.bookmyticket.Activities;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
+import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,6 +40,7 @@ import com.webtech.developers.bookmyticket.R;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 
 import androidmads.library.qrgenearator.QRGContents;
@@ -99,7 +106,28 @@ public class Booking_Details extends AppCompatActivity {
                     {
                         QRGSaver.save( Environment.getExternalStorageDirectory().getPath() + "/Book My Ticket/", moviename, bitmap, QRGContents.ImageType.IMAGE_JPEG );
                         Toast.makeText( getApplication(), "Booking Successful.", Toast.LENGTH_SHORT ).show();
-                        startActivity( new Intent( Booking_Details.this,MainActivity.class ) );
+
+                        AlertDialog.Builder builder=new AlertDialog.Builder( Booking_Details.this );
+                        builder.setTitle( "Want to see the Ticket" );
+                        builder.setPositiveButton( "Open", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick (DialogInterface dialog, int which) {
+                          Intent intent=new Intent( Intent.ACTION_GET_CONTENT);
+                          Uri uri=Uri.parse(  Environment.getExternalStorageDirectory().getPath() + "/Book My Ticket/");
+                          intent.setDataAndType( uri,"*/*" );
+                          startActivity( Intent.createChooser( intent,"Open Folder" ));
+                            }
+                        } );
+
+                        builder.setNegativeButton( "Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick (DialogInterface dialog, int which) {
+                                dialog.cancel();
+                                startActivity( new Intent( Booking_Details.this,MainActivity.class ) );
+                            }
+                        } );
+                        builder.create().show();
+
                     } catch ( WriterException e )
                     {
                         e.printStackTrace();
